@@ -1,0 +1,39 @@
+html {
+    font-family: Geneva, Segoe UI, Verdana, sans-serif;
+    font-size: 14pt;
+}
+
+body {
+    display: flex;
+}
+
+/* Navigation buttons */
+button {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    font-size: 14pt;
+}
+
+/* Navigation button themes */
+button.light-theme {
+    background-color: #dbdbdb;
+    border-color: #000000;
+    color: #111111;
+}
+
+button.dark-theme {
+    background-color: #242424;
+    border-color: #ffffff;
+    color: #ffffff
+}
+
+/* body element themes */
+body.light-theme {
+    color:#111111;
+    background-color: #efefef;
+}
+
+body.dark-theme {
+    color:#ffffff;
+    background-color: #2a2a2a;
+}

@@ -1,0 +1,6 @@
+**/__pycache__/
+*.py[cod]
+apikeys.json
+token.json
+*.db
+submissions.txt

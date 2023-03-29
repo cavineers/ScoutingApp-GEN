@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}4541 Scouting App | 2023{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/2023/css/result.css"/>
+{% endblock %}
+{% block scripts %}
+<script src="/static/2023/js/result.js"></script>
+<script src="/static/2023/js/navstamp.js"></script>
+{% endblock %}
+{% block contents %}
+<div>
+    <div>
+        <h1>Comments</h1>
+        <div class="commentboxes">
+            <p>Add Any Match Comments, Concerns, and Strengths/Weaknesses about your robot (Please No Sarcastic Remarks)</p>
+            <textarea id="commentarea1" class="commentarea" placeholder="Enter text here..."></textarea>
+            <br>
+            <button class="submit" id="finishButton">Submit</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

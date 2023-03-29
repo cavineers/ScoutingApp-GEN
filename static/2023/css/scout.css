@@ -1,0 +1,248 @@
+/* Unselected node color: #777 */
+
+.table {
+    height: 100px;
+    width: 100%;
+    margin-left: 0%;
+}
+
+.node-cone {
+    height: 35px;
+    width: 35px;
+    background-color: #777;
+    border-color: #777;
+    padding: 11%;
+    border-radius: 100%;
+    border-style: double;
+    align-items: center;
+}
+
+.node-cube {
+    height: 35px;
+    width: 35px;
+    background-color: #777;
+    border-color: #777;
+    padding: 11%;
+    border-radius: 20%;
+    border-style: double;
+    align-items: center;
+}
+
+.node-cube_button {
+    height: 100px;
+    width: 100px;
+    background-color: #777;
+    border-color: #777;
+    padding: 11%;
+    margin: 23%;
+    border-radius: 20%;
+    align-items: center;
+}
+
+.node-cone_button {
+    height: 100px;
+    width: 100px;
+    margin-left: 23%;
+    margin-top: 23%;
+    background-color: #777;
+    border-color: #777;
+    padding: 11%;
+    border-radius: 100%;
+    align-items: center;
+}
+
+.node-hybrid {
+    height: 35px;
+    width: 35px;
+    background-color: #777;
+    padding: 11%;
+    border-radius: 20%;
+    border-style: none;
+    align-items: center;
+}
+
+.next {
+    height: 50px;
+    width: 200px;
+    margin-top: 10%;
+    background-color: #ff0000; /* Red */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 5px #777;
+}
+
+.next span {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.next:hover {background-color: #cf0000}
+
+.next:active {
+    background-color: #cf0000;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.next span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.next:hover span {
+    padding-right: 25px;
+}
+
+.next:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.button_red {
+    height: 50px;
+    width: 150px;
+    margin-top: 10px;
+    line-height: 20px;
+    background-color: #ff0000; /* Red */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 5px #777;
+}
+
+.button_yellow {
+    height: 50px;
+    width: 150px;
+    margin-top: 10px;
+    line-height: 20px;
+    background-color: #dba800; /* Yellow */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 5px #777;
+}
+
+.button_black {
+    height: 50px;
+    width: 150px;
+    margin-top: 10px;
+    line-height: 20px;
+    background-color: #222021; /* Black */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 5px #777;
+}
+
+.button_red:hover {background-color: #cf0000}
+
+.button_red:active {
+    background-color: #cf0000;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.button_yellow:active {
+    background-color: #795d00;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.button_black:active {
+    background-color: #0d0d0d;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.platform-select {
+    margin-left: 4px;
+}
+
+.charge {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.charge label {
+    position: relative;
+}
+
+.charge label input {
+    display: none;
+}
+
+.charge label input:checked ~ span{
+    background-color: #999;
+    border: 5px solid #ffa600;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.charge label span {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.left {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    background: #ff0000;
+    color: white;
+    border: 5px solid #ff0000;
+    text-align: center;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    box-shadow: 0 5px #777;
+}
+.left:hover {background-color: #cf0000;}
+
+.mid {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    background: #ff0000;
+    color: white;
+    border: 5px solid #ff0000;
+    text-align: center;
+    box-shadow: 0 5px #777;
+}
+.mid:hover {background-color: #cf0000;}
+
+.right {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    background: #ff0000;
+    color: white;
+    border: 5px solid #ff0000;
+    text-align: center;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 5px #777;
+}
+.right:hover {background-color: #cf0000;}
