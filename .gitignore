@@ -4,3 +4,4 @@ apikeys.json
 token.json
 *.db
 submissions.txt
+config.json

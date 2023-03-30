@@ -94,10 +94,10 @@ def ping():
 
 def serve(host:str="localhost", port:int=8080):
     "Serve the webapp."
-    print("Serving", host, f"on port {port}.")
+    print(f"Serving on {host}:{port}.")
     waitress.serve(app, host=host, port=int(port), threads=48)
 
-def load_competitions(dir:str=competition.COMPETITIONS_DIR):
+def load_competitions(dir:str):
     "Load competition blueprints from the competitions folder. Default is 'comps'."
     dir = os.path.abspath(dir)
     for filename in os.listdir(dir): #get paths to all files

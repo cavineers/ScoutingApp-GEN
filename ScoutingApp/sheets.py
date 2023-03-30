@@ -1,5 +1,3 @@
-from .constants import *
-from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -7,10 +5,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build, Resource
 from googleapiclient.errors import HttpError
 import json
+import os
 
-with open(API_KEYS_FILE) as f:
-    KEYS = json.load(f)
-SHEETS_OAUTH_DATA = KEYS[SHEETS_OAUTH]
+ID:str = None
+OAUTH:"dict[str]" = None
+TOKEN_PATH:str = None
+SCOPES:"list[str]" = []
+SUBMISSIONS_FILE:str = None
 
 
 class Column:
@@ -167,62 +168,28 @@ def process_events(events:"list[Event]")->"dict[str]":
         "avg_score_delta":round((sum(delta.total_seconds() for delta in deltas)/len(deltas)) if deltas else 0, 3)
     }
 
-def map_index_to_type(index:int)->str:
-    "Given index, get its score node type in the score grid."
-    if isinstance(index, int) and (index >= 0 or index < 27):
-        for indexes, type in zip(SCORE_GRID_INDEX, SCORE_GRID_NAMES):
-            if index in indexes:
-                return type
-    raise IndexError("Index out of range.")
-
-def map_index_to_node_row(index:int):
-    "Given index, get its score grid row."
-    if isinstance(index, int) and (index >= 0 or index < 27):
-        for indexes, row in zip(SCORE_GRID_ROW_INDEX, SCORE_GRID_ROW_NAMES):
-            if index in indexes:
-                return row
-    raise IndexError("Index out of range.")
-
 def from_utc_timestamp(value:int)->datetime: #assuming that value is a javascript timestamp in ms since python takes timestamp in seconds
     return datetime.fromtimestamp(value/1000, tz=timezone.utc).astimezone(LOCAL_TIMEZONE)
 
 def to_utc_timestamp(dt:datetime)->int:
     return int(dt.astimezone(timezone.utc).timestamp()*1000) #from f"{seconds}.{microseconds}" -> milliseconds
 
-# def parse_qr_code(fp)->"dict[str]":
-#     "Parse the qr code and extract the JSON data"
-#     decoded:list = pyzbar.decode(Image.open(fp))
-#     return json.loads(decoded[0].data.decode("ascii"))
-
-def handle_upload(raw:"dict[str]"):
-    "Handle data sent to the upload route"
-    raw[ContentKeys.DATE] = datetime.now().astimezone(timezone.utc).strftime("%m/%d")
-    data = process_data(raw)
-    save_local(raw)
-    save_to_sheets(data)
-
-def process_data(raw:"dict[str]"):
-    "Turn raw gathered data into Data for each column in google sheets."
-
-
-
-
 def get_sheets_api_creds():
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists(SHEETS_TOKEN_FILE):
-        creds = Credentials.from_authorized_user_file(SHEETS_TOKEN_FILE, SHEETS_SCOPES)
+    if os.path.exists(TOKEN_PATH):
+        creds = Credentials.from_authorized_user_file(TOKEN_PATH, SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_config(SHEETS_OAUTH_DATA, SHEETS_SCOPES)
+            flow = InstalledAppFlow.from_client_config(OAUTH, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(SHEETS_TOKEN_FILE, "w") as token:
+        with open(TOKEN_PATH, "w") as token:
             token.write(creds.to_json())
 
     return creds
@@ -235,7 +202,7 @@ def get_sheet_columns()->list:
     try:
         service:Resource = build("sheets", "v4", credentials=creds)
         sheets:Resource = service.spreadsheets()
-        data = sheets.values().get(spreadsheetId=SPREADSHEET_ID, range="'Backup Data'!A1:1").execute()
+        data = sheets.values().get(spreadsheetId=ID, range="'Backup Data'!A1:1").execute()
         return data["values"][0] if "values" in data else []
     except HttpError as e:
         print(e)
@@ -262,13 +229,13 @@ def save_to_sheets(*datas:SheetsData):
 
         #insert data at the end of the Data sheet
         print(sheets.values().append(
-            spreadsheetId=SPREADSHEET_ID,
+            spreadsheetId=ID,
             range=f"Data!{insert_range}",
             valueInputOption="RAW", insertDataOption="INSERT_ROWS", body={"values":rows}
         ).execute())
         #insert data at the end of the Backup Data sheet
         print(sheets.values().append(
-            spreadsheetId=SPREADSHEET_ID,
+            spreadsheetId=ID,
             range=f"'Backup Data'!{insert_range}",
             valueInputOption="RAW", insertDataOption="INSERT_ROWS", body={"values":rows}
         ).execute())
@@ -284,3 +251,7 @@ def save_local(raw:"dict[str]|str"):
         raw = json.dumps(raw)
     with open(SUBMISSIONS_FILE, "a" if os.path.isfile(SUBMISSIONS_FILE) else "w") as f:
         f.write(raw+"\n")
+
+def setup():
+    global sheet_columns
+    sheet_columns = get_sheet_columns()

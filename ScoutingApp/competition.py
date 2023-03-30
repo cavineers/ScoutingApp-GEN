@@ -4,8 +4,6 @@ import inspect
 import os
 import sys
 
-COMPETITIONS_DIR = os.path.abspath("comps")
-
 class NoCompetitionException(Exception):
     "File does not specify a Competition object."
 
