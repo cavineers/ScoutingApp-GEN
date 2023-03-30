@@ -1,5 +1,4 @@
 from . import competition
-import __main__
 from datetime import datetime
 from flask import Flask, redirect, render_template, Response, request, send_file, url_for; import flask.app
 import json
