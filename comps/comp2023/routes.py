@@ -1,11 +1,11 @@
 from . import data_manage
 from .constants import NAMES_FILE
-from ScoutingApp import not_content_route, STATIC, TEMPLATES
+from ScoutingApp import not_content_route
 from flask import Blueprint, render_template, request
 import json
 import traceback
 
-blueprint = Blueprint("2023", __name__, url_prefix="/comps/2023", static_folder=STATIC, template_folder=TEMPLATES)
+blueprint = Blueprint("2023", __name__, url_prefix="/comps/2023")
 
 
 #content routes

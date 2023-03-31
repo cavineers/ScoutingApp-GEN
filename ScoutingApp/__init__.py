@@ -1,16 +1,16 @@
-from . import competition
-from datetime import datetime
+from . import competition, configs
+from datetime import datetime, tzinfo
 from flask import Flask, redirect, render_template, Response, request, send_file, url_for; import flask.app
 import json
 import os
+import pytz
 import traceback
 import waitress #production quality WSGI server to host the flask app with. more: https://docs.pylonsproject.org/projects/waitress/en/stable/index.html
 
-DIR = os.getcwd()
-STATIC = os.path.abspath(os.path.join(DIR, "static"))
-TEMPLATES = os.path.abspath(os.path.join(DIR, "templates"))
 
-app = Flask(__name__, static_folder=STATIC, template_folder=TEMPLATES)
+DEFAULT_TIMEZONE = datetime.now().astimezone().tzinfo
+
+app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 comps:"list[competition.Competition]" = []
@@ -45,7 +45,7 @@ def get_manifest():
 
 @not_content_route("/sw.js")
 def get_serviceworker():
-    return send_file(os.path.join(STATIC, "js", "sw.js"))
+    return send_file(os.path.join(app.static_folder, "js", "sw.js"))
 
 @app.route("/index.html")
 def index():
@@ -66,7 +66,7 @@ def has_no_empty_params(rule):
     arguments = rule.arguments if rule.arguments is not None else ()
     return len(defaults) >= len(arguments)
 
-def _get_static_routes(dir=STATIC, name="static")->"list[str]":
+def _get_static_routes(dir=app.static_folder, name="static")->"list[str]":
     rtv = []
     for filename in os.listdir(dir):
         path = os.path.join(dir, filename)
@@ -120,3 +120,13 @@ def add_competition(comp:competition.Competition):
         return
     app.register_blueprint(comp.blueprint)
     comps.append(comp)
+
+def get_timezone():
+    c = configs.read_configs()
+    return pytz.timezone(c[configs.TIMEZONE]) if configs.TIMEZONE in c else DEFAULT_TIMEZONE
+
+def from_timestamp(value:int, tz:tzinfo=...)->datetime: #assuming that value is a javascript timestamp in ms since python takes timestamp in seconds
+    return datetime.fromtimestamp(value/1000, tz=get_timezone() if tz is ... else tz)
+
+def to_timestamp(dt:datetime)->int:
+    return int(dt.timestamp()*1000) #from f"{seconds}.{microseconds}" -> milliseconds

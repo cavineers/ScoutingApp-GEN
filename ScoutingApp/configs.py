@@ -9,6 +9,7 @@ SHEETS_TOKEN_PATH = "SheetsTokenPath"
 SHEETS_SCOPES = "SheetsScopes"
 COMPETITIONS = "Competitions"
 SUBMISSIONS_FILE = "SubmissionsFile"
+TIMEZONE = "Timezone"
 
 def read_configs()->"dict[str]":
     "Read values from the designated config file."
