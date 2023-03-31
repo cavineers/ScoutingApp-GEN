@@ -1,6 +1,6 @@
 from . import competition, configs
 from datetime import datetime, tzinfo
-from flask import Flask, redirect, render_template, Response, request, send_file, url_for; import flask.app
+from flask import abort, Flask, redirect, render_template, Response, request, send_file, url_for; import flask.app
 import json
 import os
 import pytz
@@ -17,7 +17,7 @@ comps:"list[competition.Competition]" = []
 not_content = []
 
 def not_content_route(rule:str, onto=app, **options):
-    "Mark route as a not-content-returning route. Internally uses route decorator with the object passed to onto. Default is app."
+    "Mark route as a not-content-returning route. Internally uses route decorator from the object passed to onto. Default is app."
     def decor(f):
         not_content.append(rule)
         return onto.route(rule, **options)(f)
@@ -87,7 +87,7 @@ def assets():
 
 @not_content_route("/ping")
 def ping():
-    return "pong" #TODO return something more useful later
+    return request.remote_addr or ""
 
 
 #functions
@@ -114,6 +114,19 @@ def load_competitions(dir:str):
                 add_competition(comp)
                 print(f"Loaded blueprint for competition '{comp.name}'.")
 
+def _request_get_key(d:dict, *keys:str, **defaults):
+    rtv = {}
+    for key in keys:
+        if key not in d and key not in defaults:
+            abort(400, f"Missing form key '{key}'.")
+        rtv[key] = d[key] if key in d else defaults[key]
+
+def form_get_key(*keys:str, **defaults):
+    return _request_get_key(request.form, *keys, **defaults)
+
+def args_get_key(*keys:str, **defaults):
+    return _request_get_key(request.args, *keys, **defaults)
+
 def add_competition(comp:competition.Competition):
     "Add the competition to the list if it hasn't already been added, register its blueprint."
     if comp in comps:
@@ -122,6 +135,7 @@ def add_competition(comp:competition.Competition):
     comps.append(comp)
 
 def get_timezone():
+    "Get timezone set in configs, else use current timezone."
     c = configs.read_configs()
     return pytz.timezone(c[configs.TIMEZONE]) if configs.TIMEZONE in c else DEFAULT_TIMEZONE
 
@@ -129,4 +143,4 @@ def from_timestamp(value:int, tz:tzinfo=...)->datetime: #assuming that value is 
     return datetime.fromtimestamp(value/1000, tz=get_timezone() if tz is ... else tz)
 
 def to_timestamp(dt:datetime)->int:
-    return int(dt.timestamp()*1000) #from f"{seconds}.{microseconds}" -> milliseconds
+    return int(dt.timestamp()*1000) #from {seconds}.{microseconds} -> milliseconds
