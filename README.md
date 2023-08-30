@@ -1,4 +1,4 @@
-# ScoutingApp-GEN
+# ScoutingApp2024
 Generic Scouting App Code for the FRC 4541 team.
 
 
