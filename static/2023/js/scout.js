@@ -164,7 +164,7 @@ window.addEventListener("load", () => {
         localStorage.setItem(DEFENSES_STORAGE, JSON.stringify(defenses));
 
         //go to result.html
-        window.location.href = "/comps/2023/result.html";
+        window.location.href = "/result.html";
     });
 
 });

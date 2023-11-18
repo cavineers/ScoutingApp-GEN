@@ -30,7 +30,7 @@ function outputError(message) {
 }
 
 window.addEventListener("load", async () => {
-  var namesResponse = await fetch("/comps/2023/names");
+  var namesResponse = await fetch("/names");
   /*An array containing all the country names in the world:*/
   var names = await namesResponse.json();
   /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
@@ -48,7 +48,7 @@ window.addEventListener("load", async () => {
           return;
       //save info
       localStorage.setItem("preliminaryData", JSON.stringify(inputs));
-      window.location.href = "/comps/2023/prematch.html";
+      window.location.href = "/prematch.html";
   });
 });
 
@@ -148,78 +148,3 @@ function autocomplete(inp, arr) {
         closeAllLists(e.target);
     });
 }
-
-  /*An array containing all the names:*/
-  /*
-  var names = (
-  "Abellano Jonah",
-  "Avilla Anthony",
-  "Baker Taryn",
-  "Bechtel Logan",
-  "Bell Laura",
-  "Boomer Brett",
-  "Bost James",
-  "Bucht Lucas",
-  "Ceryes Sadie",
-  "Collins Brennen",
-  "Comeau Dulcey",
-  "Comeau Brady",
-  "D'Amico Peter",
-  "Davis Paul",
-  "Davis Elijah",
-  "Donyinah Jay",
-  "Flynn Gavin",
-  "Flynn Patrick",
-  "Gardiner Andrew",
-  "Gardiner Thomas",
-  "Gash Nick",
-  "Goodyear Jake",
-  "Grant Chad",
-  "Greenhill Kate",
-  "Greensfelder Caden",
-  "Grice Ashley",
-  "Grice Thomas",
-  "Ha Bryan",
-  "Hayden Grant",
-  "Haynes Reid",
-  "Haynes Max",
-  "Hecker Charles",
-  "Henn Alex",
-  "Herberich Eric",
-  "Jablinske Sierra",
-  "Kearney Matthew",
-  "Kellam Kit",
-  "Kelly Brody",
-  "Lam Trystan",
-  "Larson Evan",
-  "Lawrence Kayley",
-  "Levin Rosie",
-  "Lisiewski Aubrie",
-  "Maginnis Max",
-  "Malta Maggie",
-  "Malta Sam",
-  "Marques Mateo",
-  "McCabe Sean",
-  "McManus Aiden",
-  "Meacham Dylan",
-  "Moore Addisyn",
-  "Moore Savannah",
-  "Moulta Ali Aliyah",
-  "Obara Kate",
-  "Phelps Andrew",
-  "Phelps Jacob",
-  "Richardson Kaleb",
-  "Robinson Aeryn",
-  "Russ Nolan",
-  "Ryan Dakota",
-  "Sayan Nicholas",
-  "Snell Robert",
-  "Stifflemire Grace",
-  "Studgeon Matthew",
-  "Tracy Daniel",
-  "Tsampos Michael",
-  "Webb Michael",
-  "Yoshida Gabe");
-  
-  autocomplete(document.getElementById("name"), names);
-  */

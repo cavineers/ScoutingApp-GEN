@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
         }
 
         //go to next page
-        window.location.href = "/comps/2023/scout.html";
+        window.location.href = "/scout.html";
     });
 
     let buttons = document.getElementsByClassName("node-hybrid");

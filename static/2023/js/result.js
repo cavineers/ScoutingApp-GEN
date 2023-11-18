@@ -33,11 +33,11 @@ window.addEventListener("load", () => {
         localStorage.setItem("comments", JSON.stringify([document.getElementById("commentarea1").value]));
         const data = new FormData();
         data.set("data", JSON.stringify(collectData()));
-        await fetch("/comps/2023/upload", {
+        await fetch("/upload", {
             method:"POST",
             body: data
           });
-        window.location.href = "/comps/2023/home.html";
+        window.location.href = "/home.html";
     })
 });
 

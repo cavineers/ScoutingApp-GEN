@@ -1,8 +1,4 @@
-from ScoutingApp import __main__, app
-
-
-def main():
-    __main__.main(host="0.0.0.0", port=8080)
+import app
 
 if __name__ == "__main__":
-    main()
+    app.serve()
