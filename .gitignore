@@ -2,5 +2,4 @@
 *.py[cod]
 token.json
 submissions.txt
-names.txt
 config.json
