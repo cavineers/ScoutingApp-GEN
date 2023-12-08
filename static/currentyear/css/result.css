@@ -1,0 +1,66 @@
+h1 {
+  font-weight: bolder;
+  font-size: 48px;
+  margin-left: 10%;
+  margin-bottom: 25px;
+}
+
+.commentboxes {
+  margin-left: 7.5%;
+  width: 75%;
+}
+
+.commentboxes p {
+  font-weight: bold;
+}
+
+.commentarea {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 1em;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+  outline: solid;
+  font-size: 8px;
+  width: 100%;
+  height: 165px;
+  font-family: Geneva, Segoe UI, Verdana, sans-serif;
+  resize: none;
+}
+
+.submit {
+  height: 50px;
+  width: 300px;
+  margin-top: 30px;
+  background-color: #ff0000; /* Red */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+  border-radius: 5px;
+  box-shadow: 0 5px #777;
+}
+
+.submit-rainbow {
+  height: 50px;
+  width: 300px;
+  margin-top: 30px;
+  background: linear-gradient(to right, #ff0000, #ff7b00, #fffb00, #50ff00, #002aff, #b700ff, #ff00c8);
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+  border-radius: 5px;
+  box-shadow: 0 5px #777;
+  cursor: pointer;
+  transition: background 0.5s ease;
+
+}
+
+.submit-rainbow:active {
+background: linear-gradient(to right, #9c0000, #9c4e00, #9c8e00, #1a9c00, #000a9c, #6d009c, #9c008f);
+box-shadow: 0 0px #666;
+transform: translateY(5px);
+}

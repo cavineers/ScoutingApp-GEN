@@ -1,0 +1,60 @@
+/* used for buttons referenced across multiple pages */
+
+.submit:hover {background-color: #cf0000}
+
+.submit:active {
+    background-color: #cf0000;
+    box-shadow: 0 0px #666;
+    transform: translateY(5px);
+}
+
+.next {
+    height: 38px;
+    width: 150px;
+    margin-top: 14%;
+    margin-left: 50%;
+    background-color: #ff0000; /* Red */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+    border-radius: 5px;
+    box-shadow: 0 5px #777;
+  }
+
+.next span {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+  .next:hover {background-color: #cf0000}
+
+.next:active {
+  background-color: #cf0000;
+  box-shadow: 0 0px #666;
+  transform: translateY(5px);
+}
+
+.next span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.next:hover span {
+  padding-right: 25px;
+}
+
+.next:hover span:after {
+  opacity: 1;
+  right: 0;
+}

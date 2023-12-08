@@ -23,8 +23,6 @@ def not_content_route(rule:str, onto=app, **options):
         return onto.route(rule, **options)(f)
     return decor
 
-
-
 #event handlers
 @app.before_request
 def before_request():
@@ -49,14 +47,6 @@ def get_manifest():
 @not_content_route("/sw.js")
 def get_serviceworker():
     return send_file(os.path.join("static", "js", "sw.js"), mimetype="text/javascript")
-
-@app.route("/index.html")
-def index():
-    return render_template("index.html")
-
-@app.route("/help.html")
-def help():
-    return render_template("help.html")
 
 #api routes
 #cite: https://stackoverflow.com/a/13318415
@@ -104,10 +94,6 @@ def scout():
 def auto():
     return render_template("prematch.html")
 
-@app.route("/qrscanner.html")
-def qr_scanner():
-    return render_template("qrscanner.html")
-
 @app.route("/result.html")
 def result():
     return render_template("result.html")
@@ -122,13 +108,10 @@ UPLOAD_DATA_KEY = "data"
 @not_content_route("/upload", methods=["POST"])
 def upload():
     try:
-        if UPLOAD_DATA_KEY in request.files:
-            #data = data_manage.parse_qr_code(request.files[UPLOAD_DATA_KEY])
-            return "Not accepting QR Codes anymore.", 400
-        elif UPLOAD_DATA_KEY in request.form:
+        if UPLOAD_DATA_KEY in request.form:
             data = json.loads(json.loads(request.form[UPLOAD_DATA_KEY]))
         else:
-            return f"You must upload a QR code or JSON data under key '{UPLOAD_DATA_KEY}'.", 400
+            return f"You must upload a JSON data under key '{UPLOAD_DATA_KEY}'.", 400
     except Exception as e:
         traceback.print_exception(e)
         return "Got error while reading uploaded data.", 500

@@ -1,0 +1,133 @@
+.node-hybrid {
+    height: 40px;
+    width: 40px;
+    background-color: #777;
+    border-radius: 20%;
+    margin-right: 50px;
+    border-style: none;
+    align-items: center;
+}
+
+.auto {
+    width: 340px;
+    height: 400px;
+}
+
+.auto h1{
+    margin-left: 27%;
+    margin-bottom: 25px;
+    font-size: 32px;
+}
+
+.start {
+    margin-top: 10px;
+    margin-left: 20%;
+    height: 25%;
+    width: 100%;
+}
+
+.start h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-left: 5%;
+}
+
+.start label {
+    margin-left: 30%;
+    position: relative;
+}
+
+.start label input {
+    display: none;
+}
+
+.start label span {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    font-size: 24px;
+}
+
+.layout {
+    margin-top: 10px;
+    margin-left: 5%;
+    height: 25%;
+    width: 100%;
+}
+
+.layout h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-left: 23%;
+}
+
+.none {
+    height: 15px;
+    width: 15px;
+    margin: 10px;
+    background-color: #777;
+    border: none;
+    padding: 10px;
+    border-radius: 20%;
+    align-items: center;
+    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    
+}
+.start label input:checked ~ span.none{background-color: #ff0000;}
+
+.cube {
+    height: 20px;
+    width: 20px;
+    margin: 10px;
+    background-color: #777;
+    border: none;
+    padding: 10px;
+    border-radius: 20%;
+    align-items: center;
+}
+.start label input:checked ~ span.cube{background-color: #b0f;}
+
+.cone {
+    height: 20px;
+    width: 20px;
+    margin: 10px;
+    background-color: #777;
+    border: none;
+    padding: 10px;
+    border-radius: 100%;
+    align-items: center;
+}
+.start label input:checked ~ span.cone{background-color: #ff0;}
+
+.roboPos {
+    text-align: center;
+    margin-left: 0%;
+    height: 15%
+}
+
+.roboPos h2{
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 7%;
+}
+
+.roboPos label {
+    position: relative;
+}
+
+.roboPos label input {
+    display: none;
+}
+
+.roboPos label span{
+    height: 15px;
+    width: 15px;
+    margin-left: 25px;
+    display: inline-block;
+    border: 15px solid #777;
+    border-radius: 100%;
+    background-color: #777;
+}
+.roboPos label input:checked ~ span{background-color: #ff0000; border-color: #ff0000;}

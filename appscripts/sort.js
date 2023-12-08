@@ -12,7 +12,7 @@ const valMap = {
   //  }
   //}
 
-  //test2023.py
+  //test.py
   "DATE": (value) => Number(value.replaceAll("/","")),
   "CHARGING PAD STATE: AUTO": (value) => value=="docked" ? 1 : value=="engaged" ? 2 : 0,
   "CHARGING PAD STATE: TELEOP": (value) => value=="docked" ? 1 : value=="engaged" ? 2 : 0
