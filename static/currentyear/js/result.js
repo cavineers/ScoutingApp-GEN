@@ -1,18 +1,18 @@
 function collectData() {
     let contents = {};
-    contents["contentType"] = "match"; //as opposed to contentType="pit"
+    contents["contentType"] = "match";
     //get home data
     contents["preliminaryData"] = JSON.parse(localStorage.getItem("preliminaryData"));
     //get prematch data
-    contents["startPiece"] = JSON.parse(localStorage.getItem("startPiece"));
+    contents["startObject"] = JSON.parse(localStorage.getItem("startObject"));
     contents["roboPos"] = JSON.parse(localStorage.getItem("roboPos"));
-    contents["pieceLayout"] = JSON.parse(localStorage.getItem("pieceLayout"));
+    contents["objectLayout"] = JSON.parse(localStorage.getItem("objectLayout"));
     //get scout data
     //scoreGrid: just array of ScoreNode.history    =   [ScoreNode, ScoreNode, ...] -> [ScoreNode.history, ...]
     contents["scoreGrid"] = trimScoreGrid(JSON.parse(localStorage.getItem("scoreGrid")));
     contents["pickUps"] = JSON.parse(localStorage.getItem("pickUps"));
     contents["shelfPickUps"] = JSON.parse(localStorage.getItem("shelfPickUps"));
-    contents["pieceDrops"] = JSON.parse(localStorage.getItem("pieceDrops"));
+    contents["objectDrops"] = JSON.parse(localStorage.getItem("objectDrops"));
     contents["defenses"] = JSON.parse(localStorage.getItem("defenses"));
     contents["autoChargeState"] = JSON.parse(localStorage.getItem("autoChargeState"));
     contents["chargeState"] = JSON.parse(localStorage.getItem("chargeState"));
@@ -23,23 +23,6 @@ function collectData() {
     contents["navStamps"] = JSON.parse(localStorage.getItem("navStamps"));
     return JSON.stringify(contents);
 }
-
-window.addEventListener("load", () => {
-    const finishButton = document.getElementById("finishButton");
-    finishButton.addEventListener("click", async (ev) => {
-        if (ev.button != 0)
-            return;
-        //TODO add any more comments, or change to set string to localStorage instead of array
-        localStorage.setItem("comments", JSON.stringify([document.getElementById("commentarea1").value]));
-        const data = new FormData();
-        data.set("data", JSON.stringify(collectData()));
-        await fetch("/upload", {
-            method:"POST",
-            body: data
-          });
-        window.location.href = "/home.html";
-    })
-});
 
 /** @param {Array.<ScoreNode>} array */
 function trimScoreGrid(array) {

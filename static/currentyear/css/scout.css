@@ -6,7 +6,7 @@
     margin-left: 0%;
 }
 
-.node-cone {
+.node-object1 {
     height: 35px;
     width: 35px;
     background-color: #777;
@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-.node-cube {
+.node-object2 {
     height: 35px;
     width: 35px;
     background-color: #777;
@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.node-cube_button {
+.node-object2_button {
     height: 100px;
     width: 100px;
     background-color: #777;
@@ -39,7 +39,7 @@
     align-items: center;
 }
 
-.node-cone_button {
+.node-object1_button {
     height: 100px;
     width: 100px;
     margin-left: 23%;
@@ -51,7 +51,7 @@
     align-items: center;
 }
 
-.node-hybrid {
+.node-both {
     height: 35px;
     width: 35px;
     background-color: #777;

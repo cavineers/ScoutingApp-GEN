@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/static/css/commons.css">
 {% endblock %}
 {% block scripts %}
+<script src="/static/currentyear/js/next.js"></script>
 <script src="/static/currentyear/js/prematch.js"></script>
 <script src="/static/currentyear/js/navstamp.js"></script>
 {% endblock %}
@@ -13,26 +14,26 @@
     <div class="auto">
         <h1>Pre-Match</h1>
         <div class="start">
-            <h2>Starting Piece</h2>
+            <h2>Starting Object</h2>
             <table>
                 <tbody>
                     <tr>
                         <td>
                             <label>
-                                <input type="radio" id="startNone" name="startPiece" value="startNone" checked>
+                                <input type="radio" id="startNone" name="startObject" value="startNone" checked>
                                 <span class="none">
                             </label>
                         </td>
                         <td>
                             <label>
-                                <input type="radio" id="startCube" name="startPiece" value="startCube">
-                                <span class="cube">
+                                <input type="radio" id="startObject1" name="startObject" value="startObject2">
+                                <span class="object2">
                             </label>
                         </td>
                         <td>
                             <label>
-                                <input type="radio" id="startCone" name="startPiece" value="startCone">
-                                <span class="cone">
+                                <input type="radio" id="startObject1" name="startObject" value="startObject1">
+                                <span class="object1">
                             </label>
                         </td>
                     </tr>
@@ -40,20 +41,20 @@
             </table>
         </div>
         <div class="layout">
-            <h2>Piece Layout</h2>
+            <h2>Object Layout</h2>
             <table>
                 <tbody>
                     <tr>
-                        <td><button class="node-hybrid"></button></td>
-                        <td><button class="node-hybrid"></button></td>
-                        <td><button class="node-hybrid"></button></td>
-                        <td><button class="node-hybrid"></button></td>
+                        <td><button class="node-both"></button></td>
+                        <td><button class="node-both"></button></td>
+                        <td><button class="node-both"></button></td>
+                        <td><button class="node-both"></button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="roboPos">
-            <h2>Robot Location</h2>
+            <h2>Location</h2>
             <label>
                 <input type="radio" id="roboLeft" name="roboPos" value="left">
                 <span></span>

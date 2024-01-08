@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/static/css/commons.css">
 {% endblock %}
 {% block scripts %}
+<script src="/static/currentyear/js/next.js"></script>
 <script src="/static/currentyear/js/home.js"></script>
 <script src="/static/currentyear/js/navstamp.js"></script>
 {% endblock %}
@@ -13,15 +14,15 @@
     <form id="submitForm">
         <table class="table" autocomplete="off">
             <tr>
-                <td><label for="matchNumber">Match Number:&emsp;</label></td>
+                <td><label for="matchNumber">Round:&emsp;</label></td>
                 <td><input class="input" name="matchNumber" type="number" /></td>
             </tr>
             <tr>
-                <td><label for="teamNumber">Team Number:&emsp;</label></td>
+                <td><label for="teamNumber">Team:&emsp;</label></td>
                 <td><input class="input" name="teamNumber" type="number" /></td>
             </tr>
             <tr>
-                <td><label for="scouterName">Scouter:&emsp;</label></td>
+                <td><label for="scouterName">Name:&emsp;</label></td>
                 <td class="select">
                     <select class="input" id="name" name="scouterName">
                         <option value="placeholder">Pick Your Name</option>

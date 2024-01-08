@@ -29,29 +29,6 @@ function outputError(message) {
   errorOutput.innerHTML = message;
 }
 
-window.addEventListener("load", async () => {
-  var namesResponse = await fetch("/names");
-  /*An array containing all the country names in the world:*/
-  var names = await namesResponse.json();
-  /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-  autocomplete(document.getElementById("name"), names);
-
-  let submitForm = document.getElementById("submitForm");
-  submitForm.addEventListener("submit", (ev) => {
-      ev.preventDefault();
-      const found = document.getElementsByClassName("input");
-      let inputs = {};
-      for(let input of found)
-          inputs[input.name] = input.type == "number" ? Number(input.value) : input.value;
-      //verify info
-      if (!verifyInfo(inputs))
-          return;
-      //save info
-      localStorage.setItem("preliminaryData", JSON.stringify(inputs));
-      window.location.href = "/prematch.html";
-  });
-});
-
 function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/

@@ -1,41 +1,41 @@
 /** @type {Array.<ScoreNode>} */
 let scoreNodes = [];
 /** @type {Array.<number>} */
-let pickUps = []
+let actions1 = []
 /** @type {Array.<number>} */
-let shelfPickUps = [];
+let actions2 = [];
 /** @type {Array.<number>} */
-let drops = [];
+let actions3 = [];
 /** @type {Array.<number>} */
-let defenses = [];
+let actions4 = [];
 
 
 const SCORE_GRID_STORAGE = "scoreGrid";
-const PICK_UPS_STORAGE = "pickUps";
-const SHELF_PICK_UPS_STORAGE = "shelfPickUps";
-const DROPS_STORAGE = "pieceDrops";
-const DEFENSES_STORAGE = "defenses";
+const ACTION1 = "action1"; // actions 1
+const ACTION2 = "action2"; // actions 2
+const ACTION3 = "action3"; // actions 3
+const ACTION4 = "action4"; // action 4
 const CHARGE_STORAGE = "chargeState";
 const AUTO_CHARGE_STORAGE = "autoChargeState";
 const END_AUTO_STORAGE = "endAuto";
-const COMMUNITY_EXIT_STORAGE = "communityExit";
+const AUTO_ACTION4 = "autoAction4"; // auto 4
 
 const NodeType = {
-    Cone: "cone",
-    Cube: "cube",
-    Hybrid: "hybrid"
+    Object1: "object1",
+    Object2: "object2",
+    Both: "both"
 };
 
 const GamePiece = {
-    Cone: "cone",
-    Cube: "cube"
+    Object1: "object1",
+    Object2: "object2"
 };
 
 const UNSELECTED_COLOR = "#777";
-const CONE_COLOR = "#ff0";
-const CONE_BORDER_COLOR = "#cc0";
-const CUBE_COLOR = "#b0f";
-const CUBE_BORDER_COLOR = "#80c";
+const OBJECT1_COLOR = "#ff0";
+const OBJECT1_BORDER_COLOR = "#cc0";
+const OBJECT2_COLOR = "#b0f";
+const OBJECT2_BORDER_COLOR = "#80c";
 
 function getUTCNow() {
     let d = new Date();
@@ -51,7 +51,7 @@ class ScoreNode {
      */
 
     static nodeTypeFromClass(element) {
-        return element.classList.contains("node-cone") ? NodeType.Cone : element.classList.contains("node-cube") ? NodeType.Cube : element.classList.contains("node-hybrid") ? NodeType.Hybrid : null;
+        return element.classList.contains("node-object1") ? NodeType.Object1 : element.classList.contains("node-object2") ? NodeType.Object2 : element.classList.contains("node-both") ? NodeType.Both : null;
     }
 
     /**
@@ -71,18 +71,18 @@ class ScoreNode {
 
     /**
      * Set the Score Node's Game Piece
-     * @param {string|null} gamePiece 
+     * @param {string|null} gamePiece
      */
     setGamePiece(gamePiece) {
         this.gamePiece = gamePiece;
         this.history[getUTCNow()] = Object.values(GamePiece).includes(gamePiece) ? gamePiece : null;
-        if (gamePiece==GamePiece.Cone) {
-            this.element.style.background = CONE_COLOR;
-            this.element.style.borderColor = CONE_BORDER_COLOR;
+        if (gamePiece==GamePiece.Object1) {
+            this.element.style.background = OBJECT1_COLOR;
+            this.element.style.borderColor = OBJECT1_BORDER_COLOR;
         }
-        else if (gamePiece==GamePiece.Cube) {
-            this.element.style.background = CUBE_COLOR;
-            this.element.style.borderColor = CUBE_BORDER_COLOR;
+        else if (gamePiece==GamePiece.Object2) {
+            this.element.style.background = OBJECT2_COLOR;
+            this.element.style.borderColor = OBJECT2_BORDER_COLOR;
         }
         else {
             this.element.style.background = UNSELECTED_COLOR;
@@ -94,7 +94,7 @@ class ScoreNode {
 
 
 window.addEventListener("load", () => {
-    const selections = document.querySelectorAll(".node-cone, .node-cube, .node-hybrid");
+    const selections = document.querySelectorAll(".node-object1, .node-object2, .node-both");
     selections.forEach((selection) => {
         let node = new ScoreNode(selection);
         scoreNodes.push(node);
@@ -102,71 +102,28 @@ window.addEventListener("load", () => {
     });
 
     //track button press times
-    const pickedUpGround = document.getElementById("pickedUpGround");
-    const pickedUpShelf = document.getElementById("pickedUpShelf");
-    const pickUpAuto = document.getElementById("pickUpAuto");
-    const pickedUpShelfAuto = document.getElementById("pickedUpShelfAuto");
-    const dropPiece = document.getElementById("dropPiece");
-    const dropPieceAuto = document.getElementById("dropPieceAuto");
-    const markDefense = document.getElementById("markDefense");
-    const passesMidLineAuto = document.getElementById("passesMidLineAuto");
-    if (!localStorage.getItem(COMMUNITY_EXIT_STORAGE))
-        localStorage.setItem(COMMUNITY_EXIT_STORAGE, "null");
+    const action1 = document.getElementById("action1");
+    const action2 = document.getElementById("action2");
+    const action3 = document.getElementById("action3");
+    const action4 = document.getElementById("action4");
+    const autoAction1 = document.getElementById("auto_action1");
+    const autoAction2 = document.getElementById("auto_action2");
+    const autoAction3 = document.getElementById("auto_action3");
+    const autoAction4 = document.getElementById("auto_action4");
+    if (!localStorage.getItem(AUTO_ACTION4))
+        localStorage.setItem(AUTO_ACTION4, "null");
 
-    setMarkTime(pickedUpGround, PICK_UPS_STORAGE, pickUps);
-    setMarkTime(pickUpAuto, PICK_UPS_STORAGE, pickUps);
-    setMarkTime(pickedUpShelf, SHELF_PICK_UPS_STORAGE, shelfPickUps);
-    setMarkTime(pickedUpShelfAuto, SHELF_PICK_UPS_STORAGE, shelfPickUps);
-    setMarkTime(dropPiece, DROPS_STORAGE, drops);
-    setMarkTime(dropPieceAuto, DROPS_STORAGE, drops);
-    setMarkTime(markDefense, DEFENSES_STORAGE, defenses);
-
-    passesMidLineAuto.addEventListener("click", (ev)=>{
+    setMarkTime(action1, ACTION1, actions1);
+    setMarkTime(action2, ACTION2, actions2);
+    setMarkTime(action3, ACTION3, actions3);
+    setMarkTime(action4, ACTION4, actions4);
+    setMarkTime(autoAction1, ACTION1, actions1);
+    setMarkTime(autoAction2, ACTION2, actions2);
+    setMarkTime(autoAction3, ACTION3, actions3);
+    autoAction4.addEventListener("click", (ev)=>{
         if (ev.button!=0) return;
-        localStorage.setItem(COMMUNITY_EXIT_STORAGE, getUTCNow());
+        localStorage.setItem(AUTO_ACTION4, getUTCNow());
     })
-
-    //end auto button
-    switchAuto();
-    const endAutoButton = document.getElementById("endAuto");
-    endAutoButton.addEventListener("click", (ev) => {
-        const chargeOff = document.getElementById("chargeOffAuto");
-        const chargeDocked = document.getElementById("chargeDockedAuto");
-        const chargeEngaged = document.getElementById("chargeEngagedAuto");
-        const state = chargeEngaged.checked ? chargeEngaged.value :
-                      chargeDocked.checked ? chargeDocked.value :
-                      chargeOff.value;
-        localStorage.setItem(AUTO_CHARGE_STORAGE, JSON.stringify(state))
-        localStorage.setItem(END_AUTO_STORAGE, JSON.stringify(getUTCNow()));
-        switchTele();
-    });
-
-    //next button
-    const nextButton = document.getElementById("nextButton");
-    nextButton.addEventListener("click", (ev) => {
-        if (ev.button != 0)
-            return;
-        
-        const chargeOff = document.getElementById("chargeOff");
-        const chargeDocked = document.getElementById("chargeDocked");
-        const chargeEngaged = document.getElementById("chargeEngaged");
-        const state = chargeEngaged.checked ? chargeEngaged.value :
-                      chargeDocked.checked ? chargeDocked.value :
-                      chargeOff.value;
-
-        //save
-        localStorage.setItem(CHARGE_STORAGE, JSON.stringify(state));
-        //redundant save
-        localStorage.setItem(SCORE_GRID_STORAGE, JSON.stringify(scoreNodes));
-        localStorage.setItem(PICK_UPS_STORAGE, JSON.stringify(pickUps));
-        localStorage.setItem(SHELF_PICK_UPS_STORAGE, JSON.stringify(shelfPickUps));
-        localStorage.setItem(DROPS_STORAGE, JSON.stringify(drops));
-        localStorage.setItem(DEFENSES_STORAGE, JSON.stringify(defenses));
-
-        //go to result.html
-        window.location.href = "/result.html";
-    });
-
 });
 
 function setMarkTime(element, storageKey, array) {
@@ -195,19 +152,19 @@ function coordinatesToIndex(col, row) {
 function setNodeClick(scoreNode) {
     scoreNode.element.addEventListener("click", (e) => {
         switch(scoreNode.type) {
-            case NodeType.Cone:
+            case NodeType.Object1:
                 if (scoreNode.gamePiece == null)
-                    scoreNode.setGamePiece(GamePiece.Cone);
+                    scoreNode.setGamePiece(GamePiece.Object1);
                 else
                     scoreNode.setGamePiece(null);
                 break;
-            case NodeType.Cube:
+            case NodeType.Object2:
                 if (scoreNode.gamePiece == null)
-                    scoreNode.setGamePiece(GamePiece.Cube);
+                    scoreNode.setGamePiece(GamePiece.Object2);
                 else
                     scoreNode.setGamePiece(null);
                 break;
-            case NodeType.Hybrid:
+            case NodeType.Both:
                 //define popup menu, get menu element
                 if (scoreNode.gamePiece == null) {
                     let menuContainer = addMenu(null, "50%", "fit-content");
@@ -215,34 +172,34 @@ function setNodeClick(scoreNode) {
                     menu.style.alignItems = "center";
 
                     //define button
-                    let coneButton = document.createElement("button");
+                    let object1Button = document.createElement("button");
                     //set button style
-                    coneButton.classList.add("node-cone_button");
-                    coneButton.style.background = CONE_COLOR;
-                    coneButton.style.borderColor = CONE_BORDER_COLOR;
+                    object1Button.classList.add("node-object1_button");
+                    object1Button.style.background = OBJECT1_COLOR;
+                    object1Button.style.borderColor = OBJECT1_BORDER_COLOR;
                     //set button click event
-                    coneButton.addEventListener("click", (ev) => {
+                    object1Button.addEventListener("click", (ev) => {
                         if (ev.button != 0)
                             return;
-                        scoreNode.setGamePiece(GamePiece.Cone);
+                        scoreNode.setGamePiece(GamePiece.Object1);
                         menuContainer.remove();
                     });
 
                     //define button
-                    let cubeButton = document.createElement("button")
+                    let object2Button = document.createElement("button")
                     //set button style
-                    cubeButton.classList.add("node-cube_button");
-                    cubeButton.style.background = CUBE_COLOR;
-                    cubeButton.style.borderColor = CUBE_BORDER_COLOR;
-                    cubeButton.addEventListener("click", (ev) => {
+                    object2Button.classList.add("node-object2_button");
+                    object2Button.style.background = OBJECT2_COLOR;
+                    object2Button.style.borderColor = OBJECT2_BORDER_COLOR;
+                    object2Button.addEventListener("click", (ev) => {
                         if (ev.button != 0)
                             return;
-                        scoreNode.setGamePiece(GamePiece.Cube);
+                        scoreNode.setGamePiece(GamePiece.Object2);
                         menuContainer.remove();
                     });
 
-                    menu.appendChild(coneButton);
-                    menu.appendChild(cubeButton);
+                    menu.appendChild(object1Button);
+                    menu.appendChild(object2Button);
                 }
                 else
                     scoreNode.setGamePiece(null);

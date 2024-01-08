@@ -1,4 +1,4 @@
-.node-hybrid {
+.node-both {
     height: 40px;
     width: 40px;
     background-color: #777;
@@ -77,7 +77,7 @@
 }
 .start label input:checked ~ span.none{background-color: #ff0000;}
 
-.cube {
+.object2 {
     height: 20px;
     width: 20px;
     margin: 10px;
@@ -87,9 +87,9 @@
     border-radius: 20%;
     align-items: center;
 }
-.start label input:checked ~ span.cube{background-color: #b0f;}
+.start label input:checked ~ span.object2{background-color: #b0f;}
 
-.cone {
+.object1 {
     height: 20px;
     width: 20px;
     margin: 10px;
@@ -99,7 +99,7 @@
     border-radius: 100%;
     align-items: center;
 }
-.start label input:checked ~ span.cone{background-color: #ff0;}
+.start label input:checked ~ span.object1{background-color: #ff0;}
 
 .roboPos {
     text-align: center;
