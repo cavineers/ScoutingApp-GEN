@@ -1,4 +1,4 @@
-from . import configs, sheets
+from . import configs
 import json
 import os
 import re
@@ -57,8 +57,6 @@ def prompt_constants_sheet()->str:
         return sheet
     return "Constants"
 
-
-
 def main():
     print("="*20,"Config Setup", "="*20)
     id = prompt_id()
@@ -67,6 +65,8 @@ def main():
     data_inserts = prompt_data_inserts()
     token_path = prompt_token_path()
     constants = prompt_constants_sheet()
+
+    filename = input(f"Enter the path to keep your config file at (\"{configs.CONFIG_PATH}\" by default): ")
 
     if filename:
         if "." not in filename:
@@ -78,9 +78,9 @@ def main():
         json.dump({
             configs.SHEETS_ID: id,
             configs.SHEETS_OAUTH: oauth,
-            configs.SHEETS_TOKEN_PATH: scopes,
-            configs.SHEETS_SCOPES: data_inserts,
-            configs.DATA_INSERTS: token_path,
+            configs.SHEETS_TOKEN_PATH: token_path,
+            configs.SHEETS_SCOPES: scopes,
+            configs.DATA_INSERTS: data_inserts,
             configs.CONSTANTS: constants
         }, f)
 

@@ -1,82 +1,11 @@
-from . import configs
+from . import configs, tables
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build, Resource
-from googleapiclient.errors import HttpError
 import os
-import traceback
-from typing import Any, Callable
 
 COLUMNS_CONSTANT_NAME = "COLUMNS"
-
-class Column:
-    "Defines how data should be processed from raw data, and what google sheets column it should end up in."
-
-    default_get:"Callable[[ProcessingContext], Any]" = lambda ctx: ctx.data
-
-    def __init__(self, column_name:str, raw_attr:str|None=None, process_data:"Callable[[ProcessingContext], Any]"=default_get, strict=False):
-        self.raw_attr = raw_attr
-        self.column_name = column_name
-        self.process_data = process_data
-        self.strict = strict
-
-    def get_var_name(self, t:type):
-        "Get the name of the attribute that holds this column object."
-        for attr, value in t.__dict__.items():
-            if value is self:
-                return attr
-        raise AttributeError("Could not find attribute name for column.")
-
-    def __get__(self, instance, owner:type):
-        if instance is None:
-            return self
-        else:
-            return instance.__dict__[self.get_var_name(type(instance))]
-    
-    def __set__(self, instance, value):
-        if instance is not None:
-            instance.__dict__[self.get_var_name(type(instance))] = value
-
-class ProcessingContext:
-    "Context used when processing raw data into column data."
-    __slots__ = "sheets", "column", "raw", "data"
-
-    def __init__(self, sheets:"SheetsData", column:"Column", raw:dict[str], data=None):
-        self.sheets = sheets
-        self.column = column
-        self.raw = raw
-        self.data = data
-
-class SheetsData:
-    "Base class for object that stores collected and processed data to be sent to google sheets."
-
-    @classmethod
-    def get_column_pairs(cls):
-        "Return each pair of attribute name and column object."
-        for attr, var in cls.__dict__.items():
-            if isinstance(var, Column):
-                yield attr, var
-
-    @classmethod
-    def get_columns(cls):
-        "Returns all column objects."
-        for var in cls.__dict__.values():
-            if isinstance(var, Column):
-                yield var
-
-    @classmethod
-    def process_data(cls, raw_data:dict[str]):
-        instance = cls.__new__(cls)
-        for attr, column in cls.get_column_pairs():
-            value = column.process_data(ProcessingContext(
-                instance,
-                column,
-                raw_data,
-                None if column.raw_attr is None else raw_data[column.raw_attr] if column.strict else raw_data.get(column.raw_attr)
-            ))
-            setattr(instance, attr, value)
-        return instance
 
 class SheetsService:
     def __init__(self, id:str=None, oauth:dict[str]=None, token_path:str=None, scopes:list[str]=None, data_inserts:list[str]=None,
@@ -88,7 +17,17 @@ class SheetsService:
         self.data_inserts = [] if data_inserts is None else data_inserts
         self.constant_sheet_name = constants_sheet_name
         self.sheets_constants = {} if sheets_constants is None else sheets_constants
+        self._api_service:Resource = None
 
+    def __enter__(self)->Resource:
+        if self._api_service is None:
+            self._api_service = build("sheets", "v4", credentials=self.get_sheets_api_creds())
+        return self._api_service.spreadsheets()
+            
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self._api_service is not None:
+            self._api_service.close()
+            self._api_service = None
 
     def config(self, c:"configs.Configs"):
         "Update SheetsService to use Configs values."
@@ -139,11 +78,7 @@ class SheetsService:
     def get_sheet_constants(self)->dict[str]:
         "Get constants from the google sheets."
 
-        creds = self.get_sheets_api_creds()
-
-        try:
-            service:Resource = build("sheets", "v4", credentials=creds)
-            sheets:Resource = service.spreadsheets()
+        with self as sheets:
             rtv = {}
             data = sheets.values().get(spreadsheetId=self.id, range=f"'{self.constant_sheet_name}'!A1:ZZZ").execute()
             if "values" in data:
@@ -161,21 +96,22 @@ class SheetsService:
                 self.sheets_constants.update(rtv)
                 return rtv
             return self.sheets_constants.copy()
-        except HttpError as e:
-            traceback.print_exception(e)
-        finally:
-            if "service" in locals():
-                service.close()
+        
+    def validate_columns(self, table:"type[tables.Table]"):
+        "Returns the names of columns defined in Constants but missing in the given Table."
+        missing = []
+        table_column_names = (column.column_name for column in table.get_columns())
+        for name in self.sheets_constants.get(COLUMNS_CONSTANT_NAME, ()):
+            if name not in table_column_names:
+                missing.append(name)
+        return missing
 
-    def save_to_sheets(self, *datas:SheetsData):
+
+    def save_to_sheets(self, *datas:"tables.Table"):
         "Save processed data to the google sheets."
 
-        creds = self.get_sheets_api_creds()
-
-        try:
+        with self as sheets:
             insert_range = "A2:A" #range to insert into
-            service:Resource = build("sheets", "v4", credentials=creds)
-            sheets:Resource = service.spreadsheets()
             
             rows = []
             for data in datas:
@@ -184,13 +120,44 @@ class SheetsService:
 
             #insert data
             for name in self.data_inserts:
-                print(sheets.values().append(
+                sheets.values().append(
                     spreadsheetId=self.id,
                     range=f"'{name}'!{insert_range}",
                     valueInputOption="RAW", insertDataOption="INSERT_ROWS", body={"values":rows}
-                ).execute())
-        except HttpError as e:
-            traceback.print_exception(e)
-        finally:
-            if "service" in locals():
-                service.close()
+                ).execute()
+
+    def enter_ranges(self, sheet_name:str=None, **ranges:list[str]|list[list[str]]|str):
+        "Enter multiple ranges to the spreadsheet interpreted as user input."
+        #https://developers.google.com/sheets/api/guides/values#write_multiple_ranges
+        with self as sheets:
+            return sheets.values().batchUpdate(spreadsheetId=self.id, body={
+                "valueInputOption":"USER_ENTERED",
+                "data":[
+                    {"range":name if sheet_name is None or "!" in name else f"{sheet_name}!{name}", "values":values}
+                    for name, values in ranges.items()
+                ]
+            }).execute()
+
+
+    def create_spreadsheet(self, name:str)->str:
+        "Create a new spreadsheet. Returns the ID of the generated spreadsheet."
+
+        with self as sheets:
+            spreadsheet = sheets.create(body={"properties":{"title":name}},
+                          fields="spreadsheetId").execute()
+            return spreadsheet.get("spreadsheetId")
+        
+    def add_sheet(self, title:str, index:int, sheetType:str="GRID", hidden:bool=False, **props):
+        "Add sheet to the spreadsheet."
+
+        with self as sheets:
+            sheets.batchUpdate(spreadsheetId=self.id, body={
+                "requests":[{"addSheet":{
+                    "properties":{
+                        "title":title,
+                        "index":index,
+                        "sheetType":sheetType,
+                        "hidden":hidden,
+                        **props
+                    }
+                }}]}).execute()
