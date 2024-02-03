@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}4541 Scouting App | Current Year{% endblock %}
+{% block title %}4541 Scouting App | 2024{% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="/static/currentyear/css/prematch.css">
-<link rel="stylesheet" href="/static/css/commons.css">
+<link rel="stylesheet" href="/static/common/commons.css">
 {% endblock %}
 {% block scripts %}
 <script src="/static/currentyear/js/next.js"></script>
@@ -10,8 +10,7 @@
 <script src="/static/currentyear/js/navstamp.js"></script>
 {% endblock %}
 {% block contents %}
-<div>
-    <div class="auto">
+    <div class="content">
         <h1>Pre-Match</h1>
         <div class="start">
             <h2>Starting Object</h2>
@@ -20,55 +19,37 @@
                     <tr>
                         <td>
                             <label>
-                                <input type="radio" id="startNone" name="startObject" value="startNone" checked>
+                                <input type="radio" id="startNone" name="no-piece" value="noGamePiece" checked>
                                 <span class="none">
                             </label>
                         </td>
                         <td>
                             <label>
-                                <input type="radio" id="startObject1" name="startObject" value="startObject2">
-                                <span class="object2">
-                            </label>
-                        </td>
-                        <td>
-                            <label>
-                                <input type="radio" id="startObject1" name="startObject" value="startObject1">
-                                <span class="object1">
+                                <input type="radio" id="game-piece" name="startObject" value="startObject2">
+                                <span class="game-piece">
                             </label>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="layout">
-            <h2>Object Layout</h2>
-            <table>
-                <tbody>
-                    <tr>
-                        <td><button class="node-both"></button></td>
-                        <td><button class="node-both"></button></td>
-                        <td><button class="node-both"></button></td>
-                        <td><button class="node-both"></button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style="margin-top: 10%; width: 100%; text-align: center;">
+            <div class="stage">
+                <h2>Robot Position</h2>
+                <label>
+                    <input type="radio" id="leftPos" name="roboPos" value="left" checked>
+                    <span class="left">Left</span>
+                </label>
+                <label>
+                    <input type="radio" id="middlePos" name="roboPos" value="middle">
+                    <span class="mid">Middle</span>
+                </label>
+                <label>
+                    <input type="radio" id="rightPos" name="roboPos" value="right">
+                    <span class="right">Right</span>
+                </label>
+            </div>
         </div>
-        <div class="roboPos">
-            <h2>Location</h2>
-            <label>
-                <input type="radio" id="roboLeft" name="roboPos" value="left">
-                <span></span>
-            </label>
-            <label>
-                <input type="radio" id="roboMid" name="roboPos" value="mid" checked>
-                <span></span>
-            </label>
-            <label>
-                <input type="radio" id="roboRight" name="roboPos" value="right">
-                <span></span>
-            </label>
-        </div>
-    </div>
     <div class="next_container">
         <button class="next" id="nextButton">
             <span>Next</span>

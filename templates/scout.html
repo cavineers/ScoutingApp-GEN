@@ -2,7 +2,7 @@
 {% block title %}4541 Scouting App | Current Year{% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="/static/currentyear/css/scout.css" />
-<link rel="stylesheet" href="/static/css/commons.css">
+<link rel="stylesheet" href="/static/common/commons.css">
 {% endblock %}
 {% block scripts %}
 <script src="/static/currentyear/js/next.js"></script>
@@ -11,43 +11,6 @@
 {% endblock %}
 {% block contents %}
 <div>
-    <table class="table">
-        <tbody>
-            <tr>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-            </tr>
-            <tr>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object1"></button></td>
-                <td><button class="node-object2"></button></td>
-                <td><button class="node-object1"></button></td>
-            </tr>
-            <tr>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-                <td><button class="node-both"></button></td>
-            </tr>
-        </tbody>
-    </table>
     <div class="auto" style="margin-top: 10%; width: 100%; text-align: center;">
         <label>
             <button class="button_red" id="auto_action1">Auto PlaceHolder#1</button>
@@ -63,18 +26,18 @@
         </label>
         <div style="margin-top: 10%; width: 100%; text-align: center;">
             <div class="charge">
-                <h2>Charge Station</h2>
+                <h2>Auto States</h2>
                 <label>
                     <input type="radio" id="chargeOffAuto" name="stationAuto" value="off" checked>
                     <span class="left">Off</span>
                 </label>
                 <label>
                     <input type="radio" id="chargeDockedAuto" name="stationAuto" value="docked">
-                    <span class="mid">Docked</span>
+                    <span class="mid">State 1</span>
                 </label>
                 <label>
                     <input type="radio" id="chargeEngagedAuto" name="stationAuto" value="engaged">
-                    <span class="right">Engaged</span>
+                    <span class="right">State 2</span>
                 </label>
             </div>
         </div>
@@ -99,18 +62,18 @@
         </label>
         <div style="margin-top: 10%; width: 100%; text-align: center;">
             <div class="charge">
-                <h2>Charge Station</h2>
+                <h2>TeleOp States</h2>
                 <label>
                     <input type="radio" id="chargeOff" name="stationTele" value="off" checked>
                     <span class="left">Off</span>
                 </label>
                 <label>
                     <input type="radio" id="chargeDocked" name="stationTele" value="docked">
-                    <span class="mid">Docked</span>
+                    <span class="mid">State 1</span>
                 </label>
                 <label>
                     <input type="radio" id="chargeEngaged" name="stationTele" value="engaged">
-                    <span class="right">Engaged</span>
+                    <span class="right">State 2</span>
                 </label>
             </div>
         </div>

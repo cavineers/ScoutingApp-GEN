@@ -1,5 +1,3 @@
-/** @type {Array.<ScoreNode>} */
-let scoreNodes = [];
 /** @type {Array.<number>} */
 let actions1 = []
 /** @type {Array.<number>} */
@@ -20,29 +18,18 @@ const AUTO_CHARGE_STORAGE = "autoChargeState";
 const END_AUTO_STORAGE = "endAuto";
 const AUTO_ACTION4 = "autoAction4"; // auto 4
 
-const NodeType = {
-    Object1: "object1",
-    Object2: "object2",
-    Both: "both"
-};
-
-const GamePiece = {
-    Object1: "object1",
-    Object2: "object2"
-};
+const GamePiece = "gamePiece"
 
 const UNSELECTED_COLOR = "#777";
-const OBJECT1_COLOR = "#ff0";
-const OBJECT1_BORDER_COLOR = "#cc0";
-const OBJECT2_COLOR = "#b0f";
-const OBJECT2_BORDER_COLOR = "#80c";
+const PIECE_COLOR = "#ff0";
+const PIECE_BORDER_COLOR = "#cc0";
 
 function getUTCNow() {
     let d = new Date();
     return d.getTime() + d.getTimezoneOffset()*60000; //60000 ms in 1 minute
 }
 
-class ScoreNode {
+class Pieces {
 
     /**
      * 
@@ -50,22 +37,20 @@ class ScoreNode {
      * @returns {string|null} The node type, or null if could not be determined.
      */
 
-    static nodeTypeFromClass(element) {
-        return element.classList.contains("node-object1") ? NodeType.Object1 : element.classList.contains("node-object2") ? NodeType.Object2 : element.classList.contains("node-both") ? NodeType.Both : null;
+    static getPiece(element) {
+        return element.classList.contains("game-piece") ? GamePiece : null;
     }
 
     /**
      * 
      * @param {Element} element 
-     * @param {string} type Type of score node.
      * @param {string|null} gamePiece Game piece that is in the node.
      * @param {object} history
      */
 
-    constructor(element, type, gamePiece, history) {
+    constructor(element, gamePiece, history) {
         this.element = element;
-        this.type = !type ? ScoreNode.nodeTypeFromClass(element) : type;
-        this.gamePiece = Object.values(GamePiece).includes(gamePiece) ? gamePiece : null;
+        this.gamePiece = getPiece(GamePiece) ? gamePiece : null;
         this.history = history?history:{};
     }
 
@@ -75,31 +60,19 @@ class ScoreNode {
      */
     setGamePiece(gamePiece) {
         this.gamePiece = gamePiece;
-        this.history[getUTCNow()] = Object.values(GamePiece).includes(gamePiece) ? gamePiece : null;
-        if (gamePiece==GamePiece.Object1) {
+        if (GamePiece != null) {
             this.element.style.background = OBJECT1_COLOR;
             this.element.style.borderColor = OBJECT1_BORDER_COLOR;
-        }
-        else if (gamePiece==GamePiece.Object2) {
-            this.element.style.background = OBJECT2_COLOR;
-            this.element.style.borderColor = OBJECT2_BORDER_COLOR;
         }
         else {
             this.element.style.background = UNSELECTED_COLOR;
             this.element.style.borderColor = UNSELECTED_COLOR;
         }
-        localStorage.setItem(SCORE_GRID_STORAGE, JSON.stringify(scoreNodes));
     }
 }
 
 
 window.addEventListener("load", () => {
-    const selections = document.querySelectorAll(".node-object1, .node-object2, .node-both");
-    selections.forEach((selection) => {
-        let node = new ScoreNode(selection);
-        scoreNodes.push(node);
-        setNodeClick(node);
-    });
 
     //track button press times
     const action1 = document.getElementById("action1");
@@ -144,68 +117,6 @@ function setMarkTime(element, storageKey, array) {
  */
 function coordinatesToIndex(col, row) {
     return row*9+col;
-}
-
-/**
- * @param {ScoreNode} scoreNode
- */
-function setNodeClick(scoreNode) {
-    scoreNode.element.addEventListener("click", (e) => {
-        switch(scoreNode.type) {
-            case NodeType.Object1:
-                if (scoreNode.gamePiece == null)
-                    scoreNode.setGamePiece(GamePiece.Object1);
-                else
-                    scoreNode.setGamePiece(null);
-                break;
-            case NodeType.Object2:
-                if (scoreNode.gamePiece == null)
-                    scoreNode.setGamePiece(GamePiece.Object2);
-                else
-                    scoreNode.setGamePiece(null);
-                break;
-            case NodeType.Both:
-                //define popup menu, get menu element
-                if (scoreNode.gamePiece == null) {
-                    let menuContainer = addMenu(null, "50%", "fit-content");
-                    let menu = menuContainer.children[1];
-                    menu.style.alignItems = "center";
-
-                    //define button
-                    let object1Button = document.createElement("button");
-                    //set button style
-                    object1Button.classList.add("node-object1_button");
-                    object1Button.style.background = OBJECT1_COLOR;
-                    object1Button.style.borderColor = OBJECT1_BORDER_COLOR;
-                    //set button click event
-                    object1Button.addEventListener("click", (ev) => {
-                        if (ev.button != 0)
-                            return;
-                        scoreNode.setGamePiece(GamePiece.Object1);
-                        menuContainer.remove();
-                    });
-
-                    //define button
-                    let object2Button = document.createElement("button")
-                    //set button style
-                    object2Button.classList.add("node-object2_button");
-                    object2Button.style.background = OBJECT2_COLOR;
-                    object2Button.style.borderColor = OBJECT2_BORDER_COLOR;
-                    object2Button.addEventListener("click", (ev) => {
-                        if (ev.button != 0)
-                            return;
-                        scoreNode.setGamePiece(GamePiece.Object2);
-                        menuContainer.remove();
-                    });
-
-                    menu.appendChild(object1Button);
-                    menu.appendChild(object2Button);
-                }
-                else
-                    scoreNode.setGamePiece(null);
-                break;
-        }
-    });
 }
 
 let autoState = true;

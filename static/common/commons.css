@@ -69,3 +69,15 @@
   opacity: 1;
   right: 0;
 }
+
+.game-piece {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  background-color: #9a9280;
+  border: none;
+  padding: 10px;
+  border-radius: 100%;
+  align-items: center;
+}
+.start label input:checked ~ span.game-piece{background-color: #ff0000;}

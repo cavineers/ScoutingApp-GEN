@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}4541 Scouting App | Current Year{% endblock %}
+{% block title %}4541 Scouting App | 2024{% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="/static/currentyear/css/home.css">
-<link rel="stylesheet" href="/static/css/commons.css">
+<link rel="stylesheet" href="/static/common/commons.css">
 {% endblock %}
 {% block scripts %}
 <script src="/static/currentyear/js/next.js"></script>
@@ -12,19 +12,46 @@
 {% block contents %}
 <div class="content">
     <form id="submitForm">
+        <div class="teams">
+            <h2>Home Page</h2>
+            <label>
+                <input type="radio" id="red1" name="team" value="r1" checked>
+                <span class="red-left">R1</span>
+            </label>
+            <label>
+                <input type="radio" id="red2" name="team" value="r2">
+                <span class="red-mid">R2</span>
+            </label>
+            <label>
+                <input type="radio" id="red3" name="team" value="r3">
+                <span class="red-mid">R3</span>
+            </label>
+            <label>
+                <input type="radio" id="blu1" name="team" value="b1" checked>
+                <span class="blue-mid">B1</span>
+            </label>
+            <label>
+                <input type="radio" id="blu2" name="team" value="b2">
+                <span class="blue-mid">B2</span>
+            </label>
+            <label>
+                <input type="radio" id="blu3" name="team" value="b3">
+                <span class="blue-right">B3</span>
+            </label>
+        </div>
         <table class="table" autocomplete="off">
             <tr>
-                <td><label for="matchNumber">Round:&emsp;</label></td>
-                <td><input class="input" name="matchNumber" type="number" /></td>
+                <td class="text"><label for="match">Round:&emsp;</label></td>
+                <td><input class="input" name="match" type="number" /></td>
             </tr>
             <tr>
-                <td><label for="teamNumber">Team:&emsp;</label></td>
-                <td><input class="input" name="teamNumber" type="number" /></td>
+                <td class="text"><label for="team">Team:&emsp;</label></td>
+                <td><input class="input" name="team" type="number" /></td>
             </tr>
             <tr>
-                <td><label for="scouterName">Name:&emsp;</label></td>
+                <td class="text"><label for="scouter">Name:&emsp;</label></td>
                 <td class="select">
-                    <select class="input" id="name" name="scouterName">
+                    <select class="input" id="name" name="scouter">
                         <option value="placeholder">Pick Your Name</option>
                         {% if names %}
                         {% for name in names %}

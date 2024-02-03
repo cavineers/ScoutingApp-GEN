@@ -1,7 +1,3 @@
-import("./prematch.js");
-import("./scout.js");
-import("./result.js");
-
 window.addEventListener("load", async () => {
 
     if(document.getElementById("submitForm") != null) {
@@ -9,7 +5,7 @@ window.addEventListener("load", async () => {
         /*An array containing all the country names in the world:*/
         var names = await namesResponse.json();
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-        autocomplete(document.getElementById("name"), names);
+        document.getElementById(("name"), names);
         let submitForm = document.getElementById("submitForm");
         submitForm.addEventListener("submit", (ev) => {
             ev.preventDefault();
@@ -76,8 +72,6 @@ window.addEventListener("load", async () => {
                       chargeOff.value;
             //save
             localStorage.setItem(CHARGE_STORAGE, JSON.stringify(state));
-            //redundant save
-            localStorage.setItem(SCORE_GRID_STORAGE, JSON.stringify(scoreNodes));
             localStorage.setItem(ACTION1, JSON.stringify(action1));
             localStorage.setItem(ACTION2, JSON.stringify(action2));
             localStorage.setItem(ACTION3, JSON.stringify(action3));
