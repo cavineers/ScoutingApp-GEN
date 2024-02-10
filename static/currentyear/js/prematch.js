@@ -1,12 +1,12 @@
-let objectLayout = [null, null, null];
-const objectOrder = ["game-piece", null];
+let objectLayout = [null, null];
+const objectOrder = [null, "game-piece"];
 
 const UNSELECTED_COLOR = "#777";
-const PIECE_COLOR = "#ff0";
-const PIECE_BORDER_COLOR = "#cc0";
+const PIECE_COLOR = "#FF4E4E";
+const PIECE_BORDER_COLOR = "#FF4E4E";
 
 window.addEventListener("load", () => {
-    let buttons = document.getElementsByClassName("game-piece");
+    let buttons = document.getElementsByClassName("piece-button");
     for (let i = 0; i<buttons.length; i++) {
         buttons[i].addEventListener("click", (ev) => {
             if (ev.button!=0) return;

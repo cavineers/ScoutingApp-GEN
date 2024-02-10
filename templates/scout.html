@@ -10,7 +10,7 @@
 <script src="/static/currentyear/js/navstamp.js"></script>
 {% endblock %}
 {% block contents %}
-<div>
+<div class="content">
     <div class="auto" style="margin-top: 10%; width: 100%; text-align: center;">
         <label>
             <button class="button_red" id="auto_action1">Auto PlaceHolder#1</button>
@@ -42,9 +42,11 @@
             </div>
         </div>
         <div>
-            <button class="next" id="endAuto">
-                <span>End Auto</span>
-            </button>
+            <div class="next_container">
+                <button class="next" id="endAuto">
+                    <span>End Auto</span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="tele" style="margin-top: 10%; width: 100%; text-align: center;">

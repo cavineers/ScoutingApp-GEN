@@ -16,40 +16,40 @@
             <h2>Home Page</h2>
             <label>
                 <input type="radio" id="red1" name="team" value="r1" checked>
-                <span class="red-left">R1</span>
+                <span class="left">R1</span>
             </label>
             <label>
                 <input type="radio" id="red2" name="team" value="r2">
-                <span class="red-mid">R2</span>
+                <span class="mid">R2</span>
             </label>
             <label>
                 <input type="radio" id="red3" name="team" value="r3">
-                <span class="red-mid">R3</span>
+                <span class="mid">R3</span>
             </label>
             <label>
                 <input type="radio" id="blu1" name="team" value="b1" checked>
-                <span class="blue-mid">B1</span>
+                <span class="blu-mid">B1</span>
             </label>
             <label>
                 <input type="radio" id="blu2" name="team" value="b2">
-                <span class="blue-mid">B2</span>
+                <span class="blu-mid">B2</span>
             </label>
             <label>
                 <input type="radio" id="blu3" name="team" value="b3">
-                <span class="blue-right">B3</span>
+                <span class="blu-right">B3</span>
             </label>
         </div>
-        <table class="table" autocomplete="off">
+        <table class="table">
+            <td class="text"><label for="match">Round:&emsp;</label></td>
             <tr>
-                <td class="text"><label for="match">Round:&emsp;</label></td>
                 <td><input class="input" name="match" type="number" /></td>
             </tr>
+            <td class="text"><label for="team">Team:&emsp;</label></td>
             <tr>
-                <td class="text"><label for="team">Team:&emsp;</label></td>
                 <td><input class="input" name="team" type="number" /></td>
             </tr>
+            <td class="text"><label for="scouter">Name:&emsp;</label></td>
             <tr>
-                <td class="text"><label for="scouter">Name:&emsp;</label></td>
                 <td class="select">
                     <select class="input" id="name" name="scouter">
                         <option value="placeholder">Pick Your Name</option>
@@ -62,8 +62,14 @@
                 </td>
             </tr>
         </table>
-        <button class="submit" type="submit">Next</button>
-        <button class="submit" type="button" onclick="localStorage.clear(); location.reload();">Reset</button>
+        <div class="buttons">
+            <button class="submit" type="button" onclick="localStorage.clear(); location.reload();">
+                <span>Reset </span>
+            </button>
+            <button class="submit" type="submit">
+                <span>Next </span>
+            </button>
+        </div>
     </form>
 </div>
 {% endblock %}

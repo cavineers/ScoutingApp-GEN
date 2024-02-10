@@ -6,61 +6,6 @@
     margin-left: 0%;
 }
 
-.node-object1 {
-    height: 35px;
-    width: 35px;
-    background-color: #777;
-    border-color: #777;
-    padding: 11%;
-    border-radius: 100%;
-    border-style: double;
-    align-items: center;
-}
-
-.node-object2 {
-    height: 35px;
-    width: 35px;
-    background-color: #777;
-    border-color: #777;
-    padding: 11%;
-    border-radius: 20%;
-    border-style: double;
-    align-items: center;
-}
-
-.node-object2_button {
-    height: 100px;
-    width: 100px;
-    background-color: #777;
-    border-color: #777;
-    padding: 11%;
-    margin: 23%;
-    border-radius: 20%;
-    align-items: center;
-}
-
-.node-object1_button {
-    height: 100px;
-    width: 100px;
-    margin-left: 23%;
-    margin-top: 23%;
-    background-color: #777;
-    border-color: #777;
-    padding: 11%;
-    border-radius: 100%;
-    align-items: center;
-}
-
-.node-both {
-    height: 35px;
-    width: 35px;
-    background-color: #777;
-    padding: 11%;
-    border-radius: 20%;
-    border-style: none;
-    align-items: center;
-}
-
 .button_red {
     height: 50px;
     width: 150px;
