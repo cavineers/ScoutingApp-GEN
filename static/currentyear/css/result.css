@@ -1,7 +1,9 @@
 h1 {
   font-weight: bolder;
   font-size: 48px;
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 8em; 
   margin-bottom: 25px;
 }
 
@@ -15,13 +17,13 @@ h1 {
 }
 
 .commentarea {
-  background-color: transparent;
+  background-color: #3e3e3e;
   color: #ffffff;
   padding: 1em;
   border-radius: 10px;
   border: 3px solid #ffffff;
   outline: solid;
-  font-size: 8px;
+  font-size: 2vh;
   width: 100%;
   height: 165px;
   font-family: Geneva, Segoe UI, Verdana, sans-serif;

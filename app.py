@@ -92,6 +92,14 @@ def home():
     with open(NAMES_FILE) as f:
         return render_template("home.html", names=[name.strip() for name in f.readlines()])
 
+@app.route("/help.html")
+def help():
+    return render_template("help.html")
+
+@app.route("/test.html")
+def test():
+    return render_template("test.html")
+
 @app.route("/scout.html")
 def scout():
     return render_template("scout.html")

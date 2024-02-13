@@ -1,12 +1,18 @@
 .content {
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
 }
 
 .title {
   display: inline-block;
   width: 100%;
-  height: auto;
+  height: fit-content;
+}
+
+.title h1 {
+  width: 100%;
+  font-size: 6vh;
+  text-align: center;
 }
 
 .submit {
@@ -190,10 +196,9 @@ right: 0;
 }
 .blu-right:hover {background-color: #293853;} 
 
-.left {
-  width: 10vw;
-  min-width: 4em;
-  height: 6vh;
+.red-left {
+  width: 100px;
+  height: 50px;
   background: #aa0000;
   color: white;
   border: 5px solid #7d0000;
@@ -202,24 +207,22 @@ right: 0;
   border-bottom-left-radius: 25px;
   box-shadow: 0 5px #9a9280;
 }
-.left:hover {background-color: #7d0000;}
+.red-left:hover {background-color: #7d0000;}
 
-.mid {
-  width: 10vw;
-  min-width: 4em;
-  height: 6vh;
+.red-mid {
+  width: 100px;
+  height: 50px;
   background: #aa0000;
   color: white;
   border: 5px solid #7d0000;
   text-align: center;
   box-shadow: 0 5px #9a9280;
 }
-.mid:hover {background-color: #7d0000;}
+.red-mid:hover {background-color: #7d0000;}
 
-.right {
-  width: 10vw;
-  min-width: 4em;
-  height: 6vh;
+.red-right {
+  width: 100px;
+  height: 50px;
   background: #aa0000;
   color: white;
   border: 5px solid #7d0000;
@@ -228,7 +231,7 @@ right: 0;
   border-bottom-right-radius: 25px;
   box-shadow: 0 5px #9a9280;
 }
-.right:hover {background-color: #7d0000;} 
+.red-right:hover {background-color: #7d0000;} 
 
 .piece-button {
   height: 50px;
