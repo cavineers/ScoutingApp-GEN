@@ -80,8 +80,8 @@ def handle_upload(raw:"dict[str]"):
     # prep_data(raw)
     
     row = ScoutingData.process_data(raw)
-    
-    sheets_api.save_to_sheets(row)
+
+#    sheets_api.save_to_sheets(row)
 
 def save_local(raw:"dict[str]|str"):
     "Save (append) the raw data to a local file."
@@ -114,20 +114,21 @@ class ScoutingData(Table):
     starting_position = Column("STARTING POSITION", "startingpos")
     
     #auto page
-    picked_up_note_auto = Column("AUTO:PICKED UP NOTE", "pickup", process_data=count_column_auto)
-    missed_shot_auto = Column("AUTO:MISSED SHOT", "missed", process_data=count_column_auto)
-    dropped_note_auto = Column("AUTO:DROPPED NOTE", "dropped", process_data=count_column_auto)
+    auto_action1 = Column("AUTO:ACTION 1", "autoAction1", process_data=count_column_auto)
+    auto_action2 = Column("AUTO:ACTION 2", "autoAction2", process_data=count_column_auto)
+    auto_action3 = Column("AUTO:ACTION 3", "autoAction3", process_data=count_column_auto)
+    stateOff_auto = Column("AUTO STATE", "autoState") 
+    state1_auto = Column("AUTO STATE", "autoState")
+    state2_auto = Column("AUTO STATE", "autoState") 
     
     #teleop page
-    picked_up_note = Column("PICKED UP NOTE", "pickup", process_data=count_column_teleop)
-    missed_shot = Column("MISSED SHOT", "missed", process_data=count_column_teleop)
-    dropped_note = Column("DROPPED NOTE", "dropped", process_data=count_column_teleop)
-    defense = Column("DEFENSE", "defense", process_data=count_column_teleop)
-    cooperation = Column("COOPERATION BONUS", "cooperation", process_data=count_column_teleop)
-    amplified = Column("AMPLIFIED BONUS", "amplified", process_data=count_column_teleop)
-    offState = Column("CHAIN STATE", "chainState") 
-    state1 = Column("CHAIN POSITION", "chainPosition")
-    state2 = Column("CHAIN STATE", "chainState") 
+    action1 = Column("ACTION 1", "action1", process_data=count_column_teleop)
+    action2 = Column("ACTION 2", "action2", process_data=count_column_teleop)
+    action3 = Column("ACTION 3", "action3", process_data=count_column_teleop)
+    action4 = Column("ACTION 4", "action4", process_data=count_column_teleop)
+    offState = Column("TELE STATE", "teleState") 
+    state1 = Column("TELE POSITION", "teleState")
+    state2 = Column("TELE STATE", "teleState") 
     
     #result page
     comments = Column("COMMENTS", "comments", lambda ctx: ctx.data[0])

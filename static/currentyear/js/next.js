@@ -1,8 +1,10 @@
 window.addEventListener("load", async () => {
 
+    //Home Page
     if(document.getElementById("submitForm") != null) {
-        var namesResponse = await fetch("/names");
-        /*An array containing all the country names in the world:*/
+        //calls for list of names
+        var namesResponse = await fetch("/names")
+        //list of scouter names
         var names = await namesResponse.json();
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         document.getElementById(("name"), names);
@@ -22,6 +24,7 @@ window.addEventListener("load", async () => {
         });
     }
 
+    //Prematch Page
     if(document.getElementById("nextButton") != null) {
         const nextButton = document.getElementById("nextButton");
         nextButton.addEventListener("click", (ev) => {
@@ -40,55 +43,70 @@ window.addEventListener("load", async () => {
         });
     }
 
-    if(document.getElementById("nextButton2") != null || document.getElementById("endAuto") != null) {
+    //Scout Page (Auto and Teleop)
+    if(document.getElementById("scoutNext") != null || document.getElementById("endAuto") != null) {
+        //loads auto page
         switchAuto();
+
+        //end auto button
         const endAutoButton = document.getElementById("endAuto");
         endAutoButton.addEventListener("click", (ev) => {
             if(ev.button != 0)
                 return;
-            const chargeOff = document.getElementById("chargeOffAuto");
-            const chargeDocked = document.getElementById("chargeDockedAuto");
-            const chargeEngaged = document.getElementById("chargeEngagedAuto");
-            const state = chargeEngaged.checked ? chargeEngaged.value :
-                      chargeDocked.checked ? chargeDocked.value :
-                      chargeOff.value;
-            localStorage.setItem(AUTO_CHARGE_STORAGE, JSON.stringify(state))
+            //gets robot state data for auto
+            const offState = document.getElementById("autoOffState");
+            const state1 = document.getElementById("autoState1");
+            const state2 = document.getElementById("autoState2");
+            const state = state2.checked ? state2.value :
+                      state1.checked ? state1.value :
+                      offState.value;
+            //saves auto button clicks and auto robot state
+            localStorage.setItem(AUTO_STATE, JSON.stringify(state));
+            localStorage.setItem(AUTO_ACTION_1, JSON.stringify(autoAction1));
+            localStorage.setItem(AUTO_ACTION_2, JSON.stringify(autoAction2));
+            localStorage.setItem(AUTO_ACTION_3, JSON.stringify(autoAction3));
+            localStorage.setItem(AUTO_ACTION_4, JSON.stringify(autoAction4));
             localStorage.setItem(END_AUTO_STORAGE, JSON.stringify(getUTCNow()));
 
             //end auto button
             switchTele();
         });
 
-        //next button
-        const nextButton2 = document.getElementById("nextButton2");
+        //Next button
+        const nextButton2 = document.getElementById("scoutNext");
         nextButton2.addEventListener("click", (ev) => {
             if (ev.button != 0)
                 return;
-            const chargeOff = document.getElementById("chargeOff");
-            const chargeDocked = document.getElementById("chargeDocked");
-            const chargeEngaged = document.getElementById("chargeEngaged");
-            const state = chargeEngaged.checked ? chargeEngaged.value :
-                      chargeDocked.checked ? chargeDocked.value :
-                      chargeOff.value;
-            //save
-            localStorage.setItem(CHARGE_STORAGE, JSON.stringify(state));
-            localStorage.setItem(ACTION1, JSON.stringify(action1));
-            localStorage.setItem(ACTION2, JSON.stringify(action2));
-            localStorage.setItem(ACTION3, JSON.stringify(action3));
-            localStorage.setItem(ACTION4, JSON.stringify(action4));
+            //Gets robot state data for teleop
+            const offState = document.getElementById("offState");
+            const state1 = document.getElementById("state1");
+            const state2 = document.getElementById("state2");
+            const state = state2.checked ? state2.value :
+                      state1.checked ? state1.value :
+                      offState.value;
+            //saves button clicks and robot state
+            localStorage.setItem(TELE_STATE, JSON.stringify(state));
+            localStorage.setItem(ACTION_1, JSON.stringify(teleAction1));
+            localStorage.setItem(ACTION_2, JSON.stringify(teleAction2));
+            localStorage.setItem(ACTION_3, JSON.stringify(teleAction3));
+            localStorage.setItem(ACTION_4, JSON.stringify(teleAction4));
 
             //go to result.html
             window.location.href = "/result.html";
         });
     }
 
+    //Results Page
     if(document.getElementById("finishButton") != null) {
+        //submit button
         const finishButton = document.getElementById("finishButton");
         finishButton.addEventListener("click", async (ev) => {
             if (ev.button != 0)
                 return;
-            //TODO add any more comments, or change to set string to localStorage instead of array
+            // save comments to local storage
             localStorage.setItem("comments", JSON.stringify([document.getElementById("commentarea1").value]));
+            setTimeout(() => finishButton.type = "submit", 100);
+            // create FormData and send collected data to the server via POST request
             const data = new FormData();
             data.set("data", JSON.stringify(collectData()));
             await fetch("/upload", {
@@ -96,7 +114,7 @@ window.addEventListener("load", async () => {
                 body: data
             });
 
-            //go back to home.html
+            // redirect back to home
             window.location.href = "/home.html";
         });
     }

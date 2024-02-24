@@ -1,22 +1,33 @@
 /** @type {Array.<number>} */
-let actions1 = []
+let autoActions1 = []
 /** @type {Array.<number>} */
-let actions2 = [];
+let autoActions2 = [];
 /** @type {Array.<number>} */
-let actions3 = [];
+let autoActions3 = [];
 /** @type {Array.<number>} */
-let actions4 = [];
+let autoActions4 = [];
+/** @type {Array.<number>} */
+let teleActions1 = []
+/** @type {Array.<number>} */
+let teleActions2 = [];
+/** @type {Array.<number>} */
+let teleActions3 = [];
+/** @type {Array.<number>} */
+let teleActions4 = [];
 
 
-const SCORE_GRID_STORAGE = "scoreGrid";
-const ACTION1 = "action1"; // actions 1
-const ACTION2 = "action2"; // actions 2
-const ACTION3 = "action3"; // actions 3
-const ACTION4 = "action4"; // action 4
-const CHARGE_STORAGE = "chargeState";
-const AUTO_CHARGE_STORAGE = "autoChargeState";
+
+const AUTO_ACTION_1 = "autoAction1"; //picks up note during auto
+const AUTO_ACTION_2 = "autoAction2"; //picks up note during auto
+const AUTO_ACTION_3 = "autoAction3"; //picks up note during auto
+const AUTO_ACTION_4 = "autoAction4"; // auto 4
+const ACTION_1 = "action1"; // actions 1
+const ACTION_2 = "action2"; // actions 2
+const ACTION_3 = "action3"; // actions 3
+const ACTION_4 = "action4"; // action 4
+const TELE_STATE = "teleState";
+const AUTO_STATE = "autoState";
 const END_AUTO_STORAGE = "endAuto";
-const AUTO_ACTION4 = "autoAction4"; // auto 4
 
 const GamePiece = "gamePiece"
 
@@ -74,29 +85,25 @@ class Pieces {
 
 window.addEventListener("load", () => {
 
-    //track button press times
+    //declares scout page buttons
     const action1 = document.getElementById("action1");
     const action2 = document.getElementById("action2");
     const action3 = document.getElementById("action3");
     const action4 = document.getElementById("action4");
-    const autoAction1 = document.getElementById("auto_action1");
-    const autoAction2 = document.getElementById("auto_action2");
-    const autoAction3 = document.getElementById("auto_action3");
-    const autoAction4 = document.getElementById("auto_action4");
-    if (!localStorage.getItem(AUTO_ACTION4))
-        localStorage.setItem(AUTO_ACTION4, "null");
+    const autoAction1 = document.getElementById("autoAction1");
+    const autoAction2 = document.getElementById("autoAction2");
+    const autoAction3 = document.getElementById("autoAction3");
+    const autoAction4 = document.getElementById("autoAction4");
 
-    setMarkTime(action1, ACTION1, actions1);
-    setMarkTime(action2, ACTION2, actions2);
-    setMarkTime(action3, ACTION3, actions3);
-    setMarkTime(action4, ACTION4, actions4);
-    setMarkTime(autoAction1, ACTION1, actions1);
-    setMarkTime(autoAction2, ACTION2, actions2);
-    setMarkTime(autoAction3, ACTION3, actions3);
-    autoAction4.addEventListener("click", (ev)=>{
-        if (ev.button!=0) return;
-        localStorage.setItem(AUTO_ACTION4, getUTCNow());
-    })
+    //logs button clicks
+    setMarkTime(action1, ACTION_1, teleActions1);
+    setMarkTime(action2, ACTION_2, teleActions2);
+    setMarkTime(action3, ACTION_3, teleActions3);
+    setMarkTime(action4, ACTION_4, teleActions4);
+    setMarkTime(autoAction1, ACTION_1, autoActions1);
+    setMarkTime(autoAction2, ACTION_2, autoActions2);
+    setMarkTime(autoAction3, ACTION_3, autoActions3);
+    setMarkTime(autoAction4, ACTION_4, autoActions4);
 });
 
 function setMarkTime(element, storageKey, array) {
