@@ -81,7 +81,7 @@ def handle_upload(raw:"dict[str]"):
     
     row = ScoutingData.process_data(raw)
 
-#    sheets_api.save_to_sheets(row)
+    sheets_api.save_to_sheets(row)
 
 def save_local(raw:"dict[str]|str"):
     "Save (append) the raw data to a local file."
