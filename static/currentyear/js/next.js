@@ -62,10 +62,10 @@ window.addEventListener("load", async () => {
                       offState.value;
             //saves auto button clicks and auto robot state
             localStorage.setItem(AUTO_STATE, JSON.stringify(state));
-            localStorage.setItem(AUTO_ACTION_1, JSON.stringify(autoAction1));
-            localStorage.setItem(AUTO_ACTION_2, JSON.stringify(autoAction2));
-            localStorage.setItem(AUTO_ACTION_3, JSON.stringify(autoAction3));
-            localStorage.setItem(AUTO_ACTION_4, JSON.stringify(autoAction4));
+            localStorage.setItem(AUTO_ACTION_1, JSON.stringify(autoActions1));
+            localStorage.setItem(AUTO_ACTION_2, JSON.stringify(autoActions2));
+            localStorage.setItem(AUTO_ACTION_3, JSON.stringify(autoActions3));
+            localStorage.setItem(AUTO_ACTION_4, JSON.stringify(autoActions4));
             localStorage.setItem(END_AUTO_STORAGE, JSON.stringify(getUTCNow()));
 
             //end auto button
@@ -86,10 +86,10 @@ window.addEventListener("load", async () => {
                       offState.value;
             //saves button clicks and robot state
             localStorage.setItem(TELE_STATE, JSON.stringify(state));
-            localStorage.setItem(ACTION_1, JSON.stringify(teleAction1));
-            localStorage.setItem(ACTION_2, JSON.stringify(teleAction2));
-            localStorage.setItem(ACTION_3, JSON.stringify(teleAction3));
-            localStorage.setItem(ACTION_4, JSON.stringify(teleAction4));
+            localStorage.setItem(TELE_ACTION_1, JSON.stringify(teleActions1));
+            localStorage.setItem(TELE_ACTION_2, JSON.stringify(teleActions2));
+            localStorage.setItem(TELE_ACTION_3, JSON.stringify(teleActions3));
+            localStorage.setItem(TELE_ACTION_4, JSON.stringify(teleActions4));
 
             //go to result.html
             window.location.href = "/result.html";

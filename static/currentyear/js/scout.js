@@ -21,10 +21,10 @@ const AUTO_ACTION_1 = "autoAction1"; //picks up note during auto
 const AUTO_ACTION_2 = "autoAction2"; //picks up note during auto
 const AUTO_ACTION_3 = "autoAction3"; //picks up note during auto
 const AUTO_ACTION_4 = "autoAction4"; // auto 4
-const ACTION_1 = "action1"; // actions 1
-const ACTION_2 = "action2"; // actions 2
-const ACTION_3 = "action3"; // actions 3
-const ACTION_4 = "action4"; // action 4
+const TELE_ACTION_1 = "teleAction1"; // actions 1
+const TELE_ACTION_2 = "teleAction2"; // actions 2
+const TELE_ACTION_3 = "teleAction3"; // actions 3
+const TELE_ACTION_4 = "teleAction4"; // action 4
 const TELE_STATE = "teleState";
 const AUTO_STATE = "autoState";
 const END_AUTO_STORAGE = "endAuto";
@@ -86,24 +86,24 @@ class Pieces {
 window.addEventListener("load", () => {
 
     //declares scout page buttons
-    const action1 = document.getElementById("action1");
-    const action2 = document.getElementById("action2");
-    const action3 = document.getElementById("action3");
-    const action4 = document.getElementById("action4");
+    const teleAction1 = document.getElementById("teleAction1");
+    const teleAction2 = document.getElementById("teleAction2");
+    const teleAction3 = document.getElementById("teleAction3");
+    const teleAction4 = document.getElementById("teleAction4");
     const autoAction1 = document.getElementById("autoAction1");
     const autoAction2 = document.getElementById("autoAction2");
     const autoAction3 = document.getElementById("autoAction3");
     const autoAction4 = document.getElementById("autoAction4");
 
     //logs button clicks
-    setMarkTime(action1, ACTION_1, teleActions1);
-    setMarkTime(action2, ACTION_2, teleActions2);
-    setMarkTime(action3, ACTION_3, teleActions3);
-    setMarkTime(action4, ACTION_4, teleActions4);
-    setMarkTime(autoAction1, ACTION_1, autoActions1);
-    setMarkTime(autoAction2, ACTION_2, autoActions2);
-    setMarkTime(autoAction3, ACTION_3, autoActions3);
-    setMarkTime(autoAction4, ACTION_4, autoActions4);
+    setMarkTime(autoAction1, AUTO_ACTION_1, autoActions1);
+    setMarkTime(autoAction2, AUTO_ACTION_2, autoActions2);
+    setMarkTime(autoAction3, AUTO_ACTION_3, autoActions3);
+    setMarkTime(autoAction4, AUTO_ACTION_4, autoActions4);
+    setMarkTime(teleAction1, TELE_ACTION_1, teleActions1);
+    setMarkTime(teleAction2, TELE_ACTION_2, teleActions2);
+    setMarkTime(teleAction3, TELE_ACTION_3, teleActions3);
+    setMarkTime(teleAction4, TELE_ACTION_4, teleActions4);
 });
 
 function setMarkTime(element, storageKey, array) {
@@ -113,17 +113,27 @@ function setMarkTime(element, storageKey, array) {
 
         array.push(getUTCNow());
         localStorage.setItem(storageKey, JSON.stringify(array));
-    });
-}
 
-/**
- * 
- * @param {number} col The column that the score node is on (start at 0)
- * @param {number} row The row that the score node is on (start at 0)
- * @returns {number} The index in the list scoreNodes that the scoreNode in the specified column and row is at.
- */
-function coordinatesToIndex(col, row) {
-    return row*9+col;
+        var button = document.createElement("button");
+       undoValues[undoValues.length] = 1
+       button.classList.add("undo_button")
+       button.textContent = displayTime + " - " + element.innerHTML;
+       button.number = undoValues.length
+       button.addEventListener("click", function() {
+           if (undoValues[button.number] == 1) {
+               button.style.textDecoration = "line-through";
+               button.style.backgroundColor = "#505050";
+               button.style.color = "#808080";
+               undoValues[button.number] = 0
+           } else {
+               button.style.textDecoration = "none";
+               button.style.backgroundColor = "#727272";
+               button.style.color = "white";
+               undoValues[button.number] = 1
+           }
+       });
+       undoContainer.insertAdjacentElement('afterbegin', button)
+    });
 }
 
 let autoState = true;

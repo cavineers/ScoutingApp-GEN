@@ -15,10 +15,10 @@ function collectData() {
     contents["autoAction2"] = JSON.parse(localStorage.getItem("autoAction2"));
     contents["autoAction3"] = JSON.parse(localStorage.getItem("autoAction3"));
     contents["autoAction4"] = JSON.parse(localStorage.getItem("autoAction4"));
-    contents["action1"] = JSON.parse(localStorage.getItem("action1"));
-    contents["action2"] = JSON.parse(localStorage.getItem("action2"));
-    contents["action3"] = JSON.parse(localStorage.getItem("action3"));
-    contents["action4"] = JSON.parse(localStorage.getItem("action4"));
+    contents["teleAction1"] = JSON.parse(localStorage.getItem("teleAction1"));
+    contents["teleAction2"] = JSON.parse(localStorage.getItem("teleAction2"));
+    contents["teleAction3"] = JSON.parse(localStorage.getItem("teleAction3"));
+    contents["teleAction4"] = JSON.parse(localStorage.getItem("teleAction4"));
     contents["autoState"] = JSON.parse(localStorage.getItem("autoState"));
     contents["teleState"] = JSON.parse(localStorage.getItem("teleState"));
     contents["endAuto"] = JSON.parse(localStorage.getItem("endAuto"));
