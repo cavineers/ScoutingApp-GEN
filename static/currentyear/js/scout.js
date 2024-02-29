@@ -1,3 +1,5 @@
+/** @type {Array.<ScorePiece>} */
+let scorePieces = [];
 /** @type {Array.<number>} */
 let autoActions1 = []
 /** @type {Array.<number>} */
@@ -29,18 +31,50 @@ const TELE_STATE = "teleState";
 const AUTO_STATE = "autoState";
 const END_AUTO_STORAGE = "endAuto";
 
-const GamePiece = "gamePiece"
+const PIECE = "piece"
 
 const UNSELECTED_COLOR = "#777";
 const PIECE_COLOR = "#ff0";
 const PIECE_BORDER_COLOR = "#cc0";
+
+document.addEventListener("DOMContentLoaded", function() {var undoContainer = document.getElementById("undoContainer");});
+
+var undoValues = [];
+
+var displayTime = "00:00:00";
+var seconds = 0;
+var minutes = 0;
+var hours = 0;
+
+function updateTime() {
+  seconds++;
+  if (seconds==60) {
+      seconds = 0;
+      minutes++;
+  }
+  if (minutes==60) {
+      minutes = 0;
+      hours++;
+  }
+  if (seconds < 10) {displaySeconds = "0" + seconds;} else {displaySeconds = seconds;}
+  if (minutes < 10) {displayMinutes = "0" + minutes;} else {displaySeconds = minutes;}
+  if (hours < 10) {displayHours = "0" + hours;} else {displaySeconds = hours;}
+  displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+}
+
+setInterval(updateTime, 1000);
+
+function getUTCNow() {
+    let d = new Date();
+    return d.getTime() + d.getTimezoneOffset()*60000; //60000 ms in 1 minute 
+}
 
 function getUTCNow() {
     let d = new Date();
     return d.getTime() + d.getTimezoneOffset()*60000; //60000 ms in 1 minute
 }
 
-class Pieces {
+class ScorePiece {
 
     /**
      * 
@@ -48,34 +82,36 @@ class Pieces {
      * @returns {string|null} The node type, or null if could not be determined.
      */
 
-    static getPiece(element) {
-        return element.classList.contains("game-piece") ? GamePiece : null;
+    static pieceTypeFromClass(element) {
+        return element.classList.contains("piece");
     }
 
     /**
      * 
      * @param {Element} element 
-     * @param {string|null} gamePiece Game piece that is in the node.
+     * @param {string} type Type of score piece.
+     * @param {string|null} piece Game piece that is in the node.
      * @param {object} history
      */
 
-    constructor(element, gamePiece, history) {
+    constructor(element, type, piece, history) {
         this.element = element;
-        this.gamePiece = getPiece(GamePiece) ? gamePiece : null;
+        this.type = !type ? ScorePiece.pieceTypeFromClass(element) : type;
+        this.piece = Object.values(PIECE).includes(piece) ? piece : null;
         this.history = history?history:{};
     }
 
     /**
      * Set the Score Node's Game Piece
-     * @param {string|null} gamePiece
+     * @param {string|null} piece
      */
-    setGamePiece(gamePiece) {
-        this.gamePiece = gamePiece;
-        if (GamePiece != null) {
-            this.element.style.background = OBJECT1_COLOR;
-            this.element.style.borderColor = OBJECT1_BORDER_COLOR;
-        }
-        else {
+    setPiece(piece) {
+        this.piece = piece;
+        this.history[getUTCNow()] = Object.values(NOTE).includes(piece) ? piece : null;
+        if (piece==PIECE) {
+            this.element.style.background = PIECE_COLOR;
+            this.element.style.borderColor = PIECE_BORDER_COLOR;
+        } else {
             this.element.style.background = UNSELECTED_COLOR;
             this.element.style.borderColor = UNSELECTED_COLOR;
         }
@@ -84,6 +120,12 @@ class Pieces {
 
 
 window.addEventListener("load", () => {
+    const selections = document.querySelectorAll(".piece-button");
+    selections.forEach((selection) => {
+        let pieces = new ScorePiece(selection);
+        scorePieces.push(pieces);
+        setPieceClick(pieces)
+    });
 
     //declares scout page buttons
     const teleAction1 = document.getElementById("teleAction1");
@@ -135,6 +177,18 @@ function setMarkTime(element, storageKey, array) {
        undoContainer.insertAdjacentElement('afterbegin', button)
     });
 }
+
+/**
+ * @param {ScorePiece} scorePiece
+ */
+function setPieceClick(scorePiece) {
+    scorePiece.element.addEventListener("click", (e) => {
+                if (scorePiece.piece == null)
+                    scorePiece.setPiece(PIECE);
+                else
+                    scorePiece.setPiece(null);
+                });
+    }
 
 let autoState = true;
 

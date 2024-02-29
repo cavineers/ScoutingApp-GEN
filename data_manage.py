@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, tzinfo, timedelta, timezone
 import json
 import os
 import scoutingutil
@@ -9,6 +9,7 @@ START = "start"
 END = "end"
 END_AUTO = "endAuto"
 MATCH_INPUT_NAMES = ("score", "move", "pickup", "dropped", "defend")
+LOCAL_TIMEZONE:tzinfo = datetime.now().astimezone().tzinfo
 
 # directory and file paths
 DIR = os.path.dirname(__file__)
@@ -72,13 +73,31 @@ def prep_data(data:dict[str]):
     else:
         data[END_AUTO] = parse_isodate(data[END_AUTO])
 
+def from_utc_timestamp(value:int)->datetime: #assuming that value is a javascript timestamp in ms since python takes timestamp in seconds
+    return datetime.fromtimestamp(value/1000, tz=timezone.utc).astimezone(LOCAL_TIMEZONE)
+
+def to_utc_timestamp(dt:datetime)->int:
+    return int(dt.astimezone(timezone.utc).timestamp()*1000) #from f"{seconds}.{microseconds}" -> milliseconds
+
 # function to handle data uploaded to the server
 def handle_upload(raw:"dict[str]"):
     "Handle data sent to the upload route"
+    upload_datetime_str = datetime.now().isoformat()  # Get current date and time as ISO 8601 string
+    raw['upload_date'] = upload_datetime_str
+
+    # Parse ISO 8601 formatted string into datetime object
+    upload_datetime = datetime.fromisoformat(upload_datetime_str)
+
+    # Format datetime into a more human-readable format
+    formatted_upload_date = upload_datetime.strftime('%m/%d/%Y')
+
+    # Add formatted upload date to the data
+    raw['formatted_upload_date'] = formatted_upload_date
+
     save_local(raw)
-    
+
     # prep_data(raw)
-    
+
     row = ScoutingData.process_data(raw)
 
     sheets_api.save_to_sheets(row)
@@ -103,20 +122,21 @@ class ScoutingData(Table):
     "Data on robot/human player's performance"
     
     #home page
-    date = Column("DATE", "date")
-    robot = Column("ROBOT", "robot")
-    team = Column("TEAM", "team")
+    robotState = Column("ROBOT", "robotState")
+    team = Column("TEAM", "preliminaryData", process_data=lambda ctx: ctx.data["team"])
     match = Column("MATCH", "preliminaryData", process_data=lambda ctx: ctx.data["match"], strict=True)
-    scouter = Column("SCOUTER", "scouter")
+    scouter = Column("SCOUTER", "preliminaryData", process_data=lambda ctx: ctx.data["scouter"])
+    upload_date = Column("DATE", "formatted_upload_date")
     
     #prematch page
-    starting_piece = Column("STARTING PIECE", "startingpiece")
-    starting_position = Column("STARTING POSITION", "startingpos")
-    
+    starting_piece = Column("STARTING PIECE", "startObject")
+    starting_position = Column("STARTING POSITION", "roboPos")
+
     #auto page
     auto_action1 = Column("AUTO:ACTION 1", "autoAction1", process_data=count_column_auto)
     auto_action2 = Column("AUTO:ACTION 2", "autoAction2", process_data=count_column_auto)
     auto_action3 = Column("AUTO:ACTION 3", "autoAction3", process_data=count_column_auto)
+    auto_action4 = Column("AUTO:ACTION 4", "autoAction4", process_data=count_column_auto)
     stateOff_auto = Column("AUTO STATE", "autoState") 
     state1_auto = Column("AUTO STATE", "autoState")
     state2_auto = Column("AUTO STATE", "autoState") 
@@ -127,7 +147,7 @@ class ScoutingData(Table):
     action3 = Column("ACTION 3", "action3", process_data=count_column_teleop)
     action4 = Column("ACTION 4", "action4", process_data=count_column_teleop)
     offState = Column("TELE STATE", "teleState") 
-    state1 = Column("TELE POSITION", "teleState")
+    state1 = Column("TELE STATE", "teleState")
     state2 = Column("TELE STATE", "teleState") 
     
     #result page

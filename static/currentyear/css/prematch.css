@@ -82,14 +82,3 @@ h1 {
     align-items: center;
     font-size: 2vh;
 }
-
-.game-piece {
-    height: 3vh;
-    width: 3vh;
-    margin: 2vh;
-    background-color: #9a9280;
-    border: none;
-    padding: 1vh;
-    border-radius: 100%;
-}
-.start label input:checked ~ span.game-piece{background-color: #FF4E4E;}

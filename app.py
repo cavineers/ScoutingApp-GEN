@@ -5,6 +5,7 @@ import json
 import os
 import waitress # production quality WSGI server to host the flask app with. more: https://docs.pylonsproject.org/projects/waitress/en/stable/index.html
 import traceback
+from data_manage import init_sheets_api
 
 # directory and file paths
 DIR = os.path.dirname(__file__)
@@ -141,5 +142,6 @@ def upload():
 # function to serve the webapp 
 def serve(host:str="0.0.0.0", port:int=80):
     "Serve the webapp."
+    init_sheets_api()
     print("Serving", host, f"on port {port}.")
     waitress.serve(app, host=host, port=int(port), threads=48)

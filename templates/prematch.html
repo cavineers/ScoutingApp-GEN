@@ -22,14 +22,14 @@
                     <tr>
                         <td>
                             <label>
-                                <input type="radio" id="startNone" name="startObject" value="startNone" checked>
+                                <input type="radio" id="startNone" name="startObject" value="none" checked>
                                 <span class="none">
                             </label>
                         </td>
                         <td>
                             <label>
                                 <input type="radio" id="startPiece" name="startObject" value="startPiece">
-                                <span class="game-piece">
+                                <span class="piece-button">
                             </label>
                         </td>
                     </tr>
@@ -40,16 +40,16 @@
             <h2>Robot Position</h2>
             <div class="stage_buttons">
                 <label>
-                    <input type="radio" id="leftPos" name="roboPos" value="left" checked>
-                    <span class="red-left">Left</span>
+                    <input type="radio" id="leftPos" name="roboPos" value="left" required>
+                    <span class="left">Left</span>
                 </label>
                 <label>
-                    <input type="radio" id="middlePos" name="roboPos" value="middle">
-                    <span class="red-mid">Middle</span>
+                    <input type="radio" id="middlePos" name="roboPos" value="middle" required>
+                    <span class="mid">Middle</span>
                 </label>
                 <label>
-                    <input type="radio" id="rightPos" name="roboPos" value="right">
-                    <span class="red-right">Right</span>
+                    <input type="radio" id="rightPos" name="roboPos" value="right" required>
+                    <span class="right">Right</span>
                 </label>
             </div>
         </div>

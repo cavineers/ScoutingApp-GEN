@@ -42,7 +42,7 @@ tr {
     border-radius: 1%;
     border: 0.1em solid #ffffff;
     outline: solid white;
-    width: 30vw;
+    width: 60vw;
     height: 10vh;
     font-family: Geneva, Segoe UI, Verdana, sans-serif;
     resize: none;
@@ -93,6 +93,6 @@ tr {
     align-items: center;
     justify-content: center;
     font-size: 3vh;
-    width: 10vw;
+    width: 13vw;
     height: 5vh;
 }

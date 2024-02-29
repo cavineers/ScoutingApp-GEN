@@ -14,16 +14,19 @@ class Column:
         self._attr_name:str = None
     
     def __get__(self, instance:"Table", owner:"type[Table]"):
+        # descriptor method to get the value of the column for a specific instance
         if instance is None:
             return self
         else:
             return instance.__dict__[self._attr_name]
     
     def __set__(self, instance:"Table", value):
+        # descriptor method to set the value of the column for a specific instance
         if instance is not None:
             instance.__dict__[self._attr_name] = value
 
     def __set_name__(self, owner:"Table", name:str):
+        # descriptor method to set the name of the attribute in the owner class
         self._attr_name = name
 
 @dataclass(slots=True)
@@ -41,6 +44,7 @@ class Table:
     __columns = ()
 
     def __init_subclass__(cls):
+        # metaclass method to set up the columns attribute for subclasses
         cls.__columns = tuple(column for column in cls.__dict__.values() if isinstance(column, Column))
         
     @classmethod
@@ -56,6 +60,7 @@ class Table:
 
     @classmethod
     def process_data(cls, raw_data:dict[str]):
+        # class method to process raw data and create an instance of the table class
         instance = cls.__new__(cls)
         for attr, column in cls.get_column_pairs():
             value = column.process_data(ProcessingContext(

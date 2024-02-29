@@ -1,14 +1,19 @@
 function collectData() {
+    // create an object to store collected data
     let contents = {};
+
+    // identify the type of content as "match"
     contents["contentType"] = "match";
 
-    //get home data
+    // retrieve and store preliminary match data
+    contents["robotState"] = JSON.parse(localStorage.getItem("robotState"));
     contents["preliminaryData"] = JSON.parse(localStorage.getItem("preliminaryData"));
+    contents["formatted_upload_date"] = JSON.parse(localStorage.getItem("formatted_upload_date"));
+    contents["start"] = JSON.parse(localStorage.getItem("start"));
 
-    //get prematch data
-    contents["startObject"] = JSON.parse(localStorage.getItem("startObject"));
+    // retrieve and store pre-match data
     contents["roboPos"] = JSON.parse(localStorage.getItem("roboPos"));
-    contents["objectLayout"] = JSON.parse(localStorage.getItem("objectLayout"));
+    contents["startObject"] = JSON.parse(localStorage.getItem("startObject"));
 
     //get scout data
     contents["autoAction1"] = JSON.parse(localStorage.getItem("autoAction1"));
@@ -36,10 +41,10 @@ function handleClick() {
     document.getElementById("finishButton").disabled = true;
   }
   
-  /** @param {Array.<ScoreNote>} array */
+  /** @param {Array.<ScorePiece>} array */
   function trimScoreGrid(array) {
       if (array==null || !array) return [];
-      const histories = array.map((scoreNote) => scoreNote.history);
+      const histories = array.map((scorePiece) => scorePiece.history);
       console.log(histories);
       let rtv = {};
       //store only the indexes that have values

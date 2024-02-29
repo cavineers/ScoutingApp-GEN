@@ -1,15 +1,17 @@
-from . import configs, tables
+from . import configs, tables # import modules from the current package (relative imports)
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build, Resource
 import os
 
-COLUMNS_CONSTANT_NAME = "COLUMNS"
+COLUMNS_CONSTANT_NAME = "COLUMNS" # constant for the name of the columns in the Google Sheets
 
+# class for interacting with Google Sheets
 class SheetsService:
     def __init__(self, id:str=None, oauth:dict[str]=None, token_path:str=None, scopes:list[str]=None, data_inserts:list[str]=None,
                  constants_sheet_name:str=None, sheets_constants:dict[str]=None):
+        # initialization of SheetsService object with various configuration parameters
         self.id = id
         self.oauth = oauth
         self.token_path = token_path
@@ -19,6 +21,7 @@ class SheetsService:
         self.sheets_constants = {} if sheets_constants is None else sheets_constants
         self._api_service:Resource = None
 
+    # context manager methods to handle resource cleanup
     def __enter__(self)->Resource:
         if self._api_service is None:
             self._api_service = build("sheets", "v4", credentials=self.get_sheets_api_creds())
@@ -29,6 +32,7 @@ class SheetsService:
             self._api_service.close()
             self._api_service = None
 
+    # method to update SheetsService with values from Configs object
     def config(self, c:"configs.Configs"):
         "Update SheetsService to use Configs values."
         #id
@@ -53,6 +57,7 @@ class SheetsService:
 
         self.get_sheet_constants()
 
+    # method to obtain Google Sheets API credentials
     def get_sheets_api_creds(self):
         "Get google sheets api creds from local files."
         creds = None
@@ -74,7 +79,7 @@ class SheetsService:
 
         return creds
 
-
+    # method to retrieve constants from the Google Sheets
     def get_sheet_constants(self)->dict[str]:
         "Get constants from the google sheets."
 
@@ -97,6 +102,7 @@ class SheetsService:
                 return rtv
             return self.sheets_constants.copy()
         
+    # method to validate columns in a table based on Google Sheets constants
     def validate_columns(self, table:"type[tables.Table]"):
         "Returns the names of columns defined in Constants but missing in the given Table."
         missing = []
@@ -106,7 +112,7 @@ class SheetsService:
                 missing.append(name)
         return missing
 
-
+    # method to save processed data to Google Sheets
     def save_to_sheets(self, *datas:"tables.Table"):
         "Save processed data to the google sheets."
 
@@ -126,6 +132,7 @@ class SheetsService:
                     valueInputOption="RAW", insertDataOption="INSERT_ROWS", body={"values":rows}
                 ).execute()
 
+    # method to enter multiple ranges to the spreadsheet interpreted as user input
     def enter_ranges(self, sheet_name:str=None, **ranges:list[str]|list[list[str]]|str):
         "Enter multiple ranges to the spreadsheet interpreted as user input."
         #https://developers.google.com/sheets/api/guides/values#write_multiple_ranges
@@ -138,7 +145,7 @@ class SheetsService:
                 ]
             }).execute()
 
-
+    # method to create a new spreadsheet
     def create_spreadsheet(self, name:str)->str:
         "Create a new spreadsheet. Returns the ID of the generated spreadsheet."
 
@@ -147,6 +154,7 @@ class SheetsService:
                           fields="spreadsheetId").execute()
             return spreadsheet.get("spreadsheetId")
         
+    # method to add a sheet to the spreadsheet
     def add_sheet(self, title:str, index:int, sheetType:str="GRID", hidden:bool=False, **props):
         "Add sheet to the spreadsheet."
 
