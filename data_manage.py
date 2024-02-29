@@ -142,10 +142,10 @@ class ScoutingData(Table):
     state2_auto = Column("AUTO STATE", "autoState") 
     
     #teleop page
-    action1 = Column("ACTION 1", "action1", process_data=count_column_teleop)
-    action2 = Column("ACTION 2", "action2", process_data=count_column_teleop)
-    action3 = Column("ACTION 3", "action3", process_data=count_column_teleop)
-    action4 = Column("ACTION 4", "action4", process_data=count_column_teleop)
+    action1 = Column("ACTION 1", "teleAction1", process_data=count_column_teleop)
+    action2 = Column("ACTION 2", "teleAction2", process_data=count_column_teleop)
+    action3 = Column("ACTION 3", "teleAction3", process_data=count_column_teleop)
+    action4 = Column("ACTION 4", "teleAction4", process_data=count_column_teleop)
     offState = Column("TELE STATE", "teleState") 
     state1 = Column("TELE STATE", "teleState")
     state2 = Column("TELE STATE", "teleState") 
