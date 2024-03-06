@@ -38,13 +38,14 @@ const PIECE_COLOR = "#ff0";
 const PIECE_BORDER_COLOR = "#cc0";
 
 document.addEventListener("DOMContentLoaded", function() {var undoContainer = document.getElementById("undoContainer");});
-
 var undoValues = [];
+
 
 var displayTime = "00:00:00";
 var seconds = 0;
 var minutes = 0;
 var hours = 0;
+
 
 function updateTime() {
   seconds++;
@@ -62,7 +63,9 @@ function updateTime() {
   displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds;
 }
 
+
 setInterval(updateTime, 1000);
+
 
 function getUTCNow() {
     let d = new Date();
@@ -157,24 +160,24 @@ function setMarkTime(element, storageKey, array) {
         localStorage.setItem(storageKey, JSON.stringify(array));
 
         var button = document.createElement("button");
-       undoValues[undoValues.length] = 1
-       button.classList.add("undo_button")
-       button.textContent = displayTime + " - " + element.innerHTML;
-       button.number = undoValues.length
-       button.addEventListener("click", function() {
-           if (undoValues[button.number] == 1) {
-               button.style.textDecoration = "line-through";
-               button.style.backgroundColor = "#505050";
-               button.style.color = "#808080";
-               undoValues[button.number] = 0
-           } else {
-               button.style.textDecoration = "none";
-               button.style.backgroundColor = "#727272";
-               button.style.color = "white";
-               undoValues[button.number] = 1
-           }
-       });
-       undoContainer.insertAdjacentElement('afterbegin', button)
+        undoValues[undoValues.length] = 1
+        button.classList.add("undo_button")
+        button.textContent = displayTime + " - " + element.innerHTML;
+        button.number = undoValues.length
+        button.addEventListener("click", function() {
+            if (undoValues[button.number] == 1) {
+                button.style.textDecoration = "line-through";
+                button.style.backgroundColor = "#505050";
+                button.style.color = "#808080";
+                undoValues[button.number] = 0
+            } else {
+                button.style.textDecoration = "none";
+                button.style.backgroundColor = "#727272";
+                button.style.color = "white";
+                undoValues[button.number] = 1
+            }
+        });
+        undoContainer.insertAdjacentElement('afterbegin', button)
     });
 }
 

@@ -141,3 +141,29 @@
     box-shadow: 0 5px #777;
 }
 .right:hover {background-color: #cf0000;}
+
+.undo_container {
+    margin-top: 3vh;
+    width: 100vw;
+    height: 8vh;
+    position: fixed;
+    bottom: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow: scroll;
+   }
+   .undo_button {
+    margin-left: 1vw;
+    margin-bottom: 2vh;
+    width: fit-content;
+    min-width: fit-content;
+    background-color: #727272;
+    border: 5px white;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+   }
+   
