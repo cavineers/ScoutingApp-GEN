@@ -7,6 +7,7 @@ const PIECE_BORDER_COLOR = "#FF4E4E";
 
 window.addEventListener("load", () => {
     let buttons = document.getElementsByClassName("piece-button");
+    // for loop to read list of buttons and check if one has been selected
     for (let i = 0; i<buttons.length; i++) {
         buttons[i].addEventListener("click", (ev) => {
             if (ev.button!=0) return;

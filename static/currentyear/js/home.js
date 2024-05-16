@@ -19,6 +19,7 @@ const BLUE_BORDER_COLOR = "#476291";
 
 window.addEventListener("load", () => {
     let robot = document.querySelectorAll(".red, .blu");
+    //for loop to go through the list of color options and add an event listener for each
     for (let i = 0; i<robot.length; i++) {
         robot[i].addEventListener("click", (ev) => {
             if (ev.button!=0) return;
@@ -41,6 +42,7 @@ window.addEventListener("load", () => {
     }
 });
 
+//Function to verify that all boxes are filled out so data stores properly
 function verifyInfo(inputs) {
     console.log(inputs.match)
     if (inputs.match < 1) {
@@ -63,6 +65,7 @@ function verifyInfo(inputs) {
     return true;
   }
 
+//Called in the event that verifyInfo catches an issue
 function outputError(message) {
   console.error(message);
   let errorOutput = document.getElementById("errorOutput");

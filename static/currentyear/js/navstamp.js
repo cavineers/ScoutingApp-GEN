@@ -1,5 +1,5 @@
 let navStamps = JSON.parse(localStorage.getItem("navStamps") || "{}");
-let navTime = new Date();
+let navTime = (new Date()).toISOString();
 
 window.addEventListener("load", () => {
     const pnames = location.pathname.split("/");

@@ -4,7 +4,6 @@
 }
 
 .title {
-  display: inline-block;
   width: 100%;
   height: fit-content;
 }
@@ -40,27 +39,27 @@
 .submit:hover {background-color: #7d0000}
 
 .submit:active {
-background-color: #7d0000;
-box-shadow: 0 0px #3e3e3e;
-transform: translateY(5px);
+  background-color: #7d0000;
+  box-shadow: 0 0px #3e3e3e;
+  transform: translateY(5px);
 }
 
 .submit span:after {
-content: '\00bb';
-position: relative;
-opacity: 0;
-top: 0;
-right: -20px;
-transition: 0.5s;
+  content: '\00bb';
+  position: relative;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
 }
 
 .submit:hover span {
-padding-right: 25px;
+  padding-right: 25px;
 }
 
 .submit:hover span:after {
-opacity: 1;
-right: 0;
+  opacity: 1;
+  right: 0;
 }
 
 .next_container {
@@ -70,27 +69,27 @@ right: 0;
 }
 
 .next {
-    height: 7vh;
-    width: 20vw;
-    background-color: #aa0000; /* Red */
-    border: 5px solid #7d0000;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    box-shadow: 0 5px #9a9280;
-  }
+  height: 7vh;
+  width: 20vw;
+  background-color: #aa0000; /* Red */
+  border: 5px solid #7d0000;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 5px #9a9280;
+}
   
-  .next span {
-    font-family: sans-serif;
-    font-weight: bold;
-    font-size: 3vh;
-    display: flex;
-    position: relative;
-    transition: 0.5s;
+.next span {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 3vh;
+  display: flex;
+  position: relative;
+  transition: 0.5s;
 }
 
 .next:hover {background-color: #7d0000}
@@ -223,12 +222,12 @@ right: 0;
 
 .piece-button {
   height: 3vh;
-    width: 3vh;
-    margin: 2vh;
-    background-color: #9a9280;
-    border: none;
-    padding: 1vh;
-    border-radius: 100%;
+  width: 3vh;
+  margin: 2vh;
+  background-color: #9a9280;
+  border: none;
+  padding: 1vh;
+  border-radius: 100%;
   align-items: center;
 }
 .start label input:checked ~ span.piece-button{background-color: #FF4E4E;}

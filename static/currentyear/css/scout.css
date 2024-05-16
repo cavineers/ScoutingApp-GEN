@@ -152,8 +152,9 @@
     flex-wrap: nowrap;
     flex-direction: row;
     overflow: scroll;
-   }
-   .undo_button {
+}
+
+.undo_button {
     margin-left: 1vw;
     margin-bottom: 2vh;
     width: fit-content;
@@ -165,5 +166,5 @@
     text-decoration: none;
     font-size: 16px;
     border-radius: 5px;
-   }
+}
    
